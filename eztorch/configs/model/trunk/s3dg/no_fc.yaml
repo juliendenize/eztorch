@@ -1,0 +1,4 @@
+_target_: eztorch.models.trunks.create_s3d
+num_classes: 0
+gating: True
+slow: False

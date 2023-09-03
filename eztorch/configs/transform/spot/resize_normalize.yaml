@@ -1,0 +1,23 @@
+_target_: torch.nn.Sequential
+_recursive_: True
+_args_:
+  - _target_: eztorch.transforms.ApplyTransformInputKey
+    transform:
+      _target_: torch.nn.Sequential
+      _args_:
+      - _target_: torchaug.batch_transforms.BatchVideoWrapper
+        same_on_frames: True
+        video_format: CTHW
+        transform:
+          _target_: torch.nn.Sequential
+          _args_:
+          - _target_: torchaug.batch_transforms.BatchVideoResize
+            antialias: True
+            size: [224, 224]
+            video_format: TCHW
+          - _target_: eztorch.transforms.Div255Input
+            inplace: True
+          - _target_: torchaug.transforms.Normalize
+            mean: [0.45, 0.45, 0.45]
+            std: [0.225, 0.225, 0.225]
+            inplace: True

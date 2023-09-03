@@ -1,0 +1,3 @@
+_target_: eztorch.callbacks.LearningRateMonitor
+logging_interval: null
+log_momentum: False

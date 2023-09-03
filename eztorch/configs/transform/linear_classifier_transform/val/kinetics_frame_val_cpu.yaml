@@ -1,0 +1,9 @@
+_target_: eztorch.transforms.OnlyInputTransform
+_recursive_: True
+transform:
+  _target_: torchvision.transforms.Compose
+  transforms:
+  - _target_: pytorchvideo.transforms.ShortSideScale
+    size: 256
+  - _target_: torchvision.transforms.CenterCrop
+    size: 256

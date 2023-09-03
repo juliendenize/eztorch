@@ -1,0 +1,14 @@
+_target_: eztorch.optimizers.optimizer_factory
+_recursive_: False
+exclude_wd_norm: True
+exclude_wd_bias: True
+name: lars
+params:
+  momentum: 0.9
+  trust_coefficient: 1.e-3
+  weight_decay: 0.
+batch_size: null
+initial_lr: 0.1
+layer_decay_lr: null
+scaler: null
+scheduler: null

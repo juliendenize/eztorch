@@ -1,0 +1,110 @@
+defaults:
+  - /callback/model_checkpoint@callbacks.model_checkpoint: epoch
+  - /callback/learning_rate_monitor@callbacks.learning_rate_monitor: default
+  - /callback/progress_bar@callbacks.progress_bar: default
+  - /datamodule: hmdb51_frame
+  - /transform/linear_classifier_transform/train@datamodule.train.transform: kinetics_frame_cpu
+  - /transform/linear_classifier_transform/train@model.train_transform: kinetics_contrastive_gpu
+  - /transform/linear_classifier_transform/val@datamodule.val.transform: kinetics_frame_eval_cpu
+  - /transform/linear_classifier_transform/val@model.val_transform: kinetics_gpu
+  - /transform/linear_classifier_transform/val@datamodule.test.transform: kinetics_frame_eval_cpu
+  - /transform/linear_classifier_transform/val@model.test_transform: kinetics_gpu
+  - /evaluation/linear_classifier/resnet3d/resnet3d18@model: hmdb51
+  - /optimizer/factory/sgd@model.optimizer: default
+  - /scheduler/factory/linear_warmup_cosine_annealing_lr@model.optimizer.scheduler: default
+  - /seed/seed_everything@seed: default
+  - /trainer: gpu_ddp_sbn
+  - _self_
+
+callbacks:
+  model_checkpoint:
+    dirpath: finetuning_checkpoints
+    every_n_epochs: 1
+    monitor: val/acc_1
+    mode: max
+    save_top_k: 1
+    save_last: True
+  progress_bar:
+    refresh_rate: 50
+ckpt_path: null
+datamodule:
+  datadir: ${dir.data}
+  decoder_args:
+    frame_filter:
+      subsample_type: uniform
+      num_samples: 8
+  train:
+    loader:
+      drop_last: True
+      num_workers: 3
+      pin_memory: True
+    global_batch_size: 64
+    clip_sampler:
+      _target_: eztorch.datasets.clip_samplers.RandomClipSampler
+      clip_duration: 2.56
+  val:
+    loader:
+      collate_fn: multiple_samples_collate
+      drop_last: False
+      num_workers: 3
+      pin_memory: True
+    global_batch_size: 16
+    clip_sampler:
+      _target_: eztorch.datasets.clip_samplers.ConstantClipsPerVideoSampler
+      clip_duration: 2.56
+      clips_per_video: 10
+      augs_per_clip: 3
+  test:
+    loader:
+      collate_fn: multiple_samples_collate
+      drop_last: False
+      num_workers: 3
+      pin_memory: True
+    global_batch_size: 2
+    clip_sampler:
+      _target_: eztorch.datasets.clip_samplers.ConstantClipsPerVideoSampler
+      clip_duration: 2.56
+      clips_per_video: 10
+      augs_per_clip: 3
+model:
+  _target_: eztorch.models.finetuning.FinetuningModel
+  classifier:
+    dropout_rate: 0.8
+  freeze_bn_layers: False
+  optimizer:
+    batch_size: ${...datamodule.train.global_batch_size}
+    exclude_wd_norm: False
+    exclude_wd_bias: False
+    initial_lr: 0.1
+    scaler: linear
+    scheduler:
+      params:
+        max_epochs: ${.....trainer.max_epochs}
+        warmup_epochs: 0
+seed:
+  seed: 42
+test:
+  ckpt_path: ${..dir.run}/${..callbacks.model_checkpoint.dirpath}/last.ckpt
+  ckpt_by_callback_mode: both
+trainer:
+  devices: 8
+  max_epochs: 200
+  log_every_n_steps: ${..callbacks.progress_bar.refresh_rate}
+loops:
+  training_epoch_loop:
+    _target_: eztorch.loops.FunctionBasedValidationTrainingEpochLoop
+    validation_fn: start_epoch_or_interval
+    validation_fn_args:
+      starting_epoch: 100
+      interval_epoch: 50
+dir:
+  data: data/
+  root: outputs/moco
+  exp: linear_classifier_batch_size${..datamodule.train.global_batch_size}
+  run: ${.root}/${.exp}
+
+hydra:
+  searchpath:
+    - pkg://eztorch.configs
+  run:
+    dir: ${...dir.run}

@@ -1,0 +1,70 @@
+defaults:
+  - /callback/progress_bar@callbacks.progress_bar: default
+  - /datamodule: ball_soccernet
+  - /transform/soccernet@model.test_transform: resize_normalize
+  - /seed/seed_everything@seed: default
+  - /trainer: gpu
+  - _self_
+
+callbacks:
+  progress_bar:
+    refresh_rate: 50
+ckpt_path: null
+datamodule:
+  datadir: ${..dir.data}
+  train: null
+  val: null
+  test:
+    decoder_args:
+      fps: 4
+      min_clip_duration: ${..clip_sampler.window_duration}
+    label_args: null
+    dataset:
+      label_args: null
+    clip_sampler:
+      _target_: eztorch.datasets.clip_samplers.soccernet.FeatureExtractionSoccerNetClipSampler
+      window_duration: 4
+      fps: 2
+      shuffle: False
+    loader:
+      drop_last: True
+      num_workers: 8
+      pin_memory: True
+      shuffle: False
+    global_batch_size: 256
+    transform: null
+model:
+  _target_: eztorch.evaluation.SoccerNetFeatureExtractor
+  _recursive_: False
+  trunk:
+    _target_: pytorchvideo.models.resnet.create_resnet
+    head: null
+    model_depth: 50
+    stem_conv_kernel_size: [1, 7, 7]
+  dim_features: 2048
+  head:
+    _target_: eztorch.models.heads.create_video_resnet_head
+    activation: null
+    dropout_rate: 0.
+    in_features: 512
+    num_classes: 0
+    output_size: [1, 1, 1]
+    output_with_global_average: true
+    pool: null
+  pretrained_trunk_path: ???
+  trunk_pattern: '^(trunk\.model\.)'
+  filename: sce_resnet3d50_4fps_4seconds_window
+  fps_in: 4
+  fps_out: 2
+seed:
+  seed: 42
+dir:
+  data: data/
+  root: outputs/extraction_features
+  exp: soccernet
+  run: ${.root}/${.exp}
+hydra:
+  searchpath:
+    - pkg://eztorch.configs
+  run:
+    dir: ${...dir.run}

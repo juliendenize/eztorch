@@ -1,0 +1,7 @@
+hydra-core >= 1.1
+pytorch-lightning >= 2.0
+torchmetrics >= 0.11.0
+einops
+torch == 2.0
+torchaug >= 0.3.1
+torhvision >= 0.15

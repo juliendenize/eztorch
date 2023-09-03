@@ -1,0 +1,46 @@
+_target_: eztorch.datamodules.ImageSoccerNetDataModule
+_recursive_: False
+datadir: ???
+train:
+  dataset:
+    datadir:  ${...datadir}/train.json
+    video_path_prefix: ${...video_path_prefix}/
+    cache_args:
+      dir: ???
+      shape: ???
+      has_time_difference: False
+  decoder_args:
+    fps: ${...decoder_args.fps}
+    multithreaded_io: True
+    time_difference_prob: 0.
+val:
+  dataset:
+    datadir:  ${...datadir}/val.json
+    video_path_prefix: ${...video_path_prefix}/
+    cache_args:
+      dir: ???
+      shape: ???
+      has_time_difference: False
+  decoder_args:
+    fps: ${...decoder_args.fps}
+    multithreaded_io: True
+    time_difference_prob: 0.
+test:
+  dataset:
+    datadir:  ${...datadir}/val.json
+    video_path_prefix: ${...video_path_prefix}/
+    cache_args:
+      dir: ???
+      shape: ???
+      has_time_difference: False
+  decoder_args:
+    fps: ${...decoder_args.fps}
+    multithreaded_io: True
+    time_difference_prob: 0.
+video_path_prefix: ${.datadir}
+decoder: frame
+decoder_args:
+  fps: 2
+  multithreaded_io: True
+  time_difference_prob: 0.
+  transform: null

@@ -1,0 +1,34 @@
+defaults:
+  - /model/trunk/vivit/@trunk: small_feature_tokens
+  - /model/head/linear@head_class: in384_out17
+
+_target_: eztorch.models.soccernet_spotting.SoccerNetSpottingModel
+_recursive_: False
+optimizer: ???
+pretrained_trunk_path: null
+pretrained_path: null
+loss_fn_args:
+  class_weights:
+    type: null
+  class_loss_type: bce
+  alpha: -1
+  gamma: 2.
+eval_step_timestamp: 0.5
+freeze_trunk: False
+train_transform: null
+val_transform: null
+save_val_preds_path: "val_preds/"
+save_test_preds_path: "test_preds/"
+NMS_args:
+  window: 10
+  threshold: 0.001
+  min_weight: 0.
+  nms_type: hard
+evaluation_args:
+  SoccerNet_path: ???
+  split: ???
+  version: 2
+  metric: tight
+prediction_args:
+  remove_inference_prediction_seconds: 0
+  merge_predictions_type: max

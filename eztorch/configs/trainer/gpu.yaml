@@ -1,0 +1,9 @@
+_target_: lightning.pytorch.trainer.Trainer
+accelerator: gpu
+benchmark: True
+num_nodes: 1
+devices: 1
+max_epochs: ???
+precision: 32
+sync_batchnorm: False
+strategy: auto

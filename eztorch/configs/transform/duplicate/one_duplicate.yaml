@@ -1,0 +1,3 @@
+_target_: eztorch.transforms.DuplicateKeyTransform
+key: input
+num_duplicates: 1

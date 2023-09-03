@@ -1,0 +1,15 @@
+_target_: eztorch.transforms.MultiCropTransform
+_recursive_: True
+set_transforms:
+  - num_views: 2
+    transform:
+      _target_: torchvision.transforms.Compose
+      _recursive_: True
+      transforms:
+        - _target_: torchvision.transforms.RandomResizedCrop
+          interpolation: 2
+          ratio: [0.75, 1.333333]
+          size: 224
+          scale: [0.14, 1.0]
+          antialias: True
+        - _target_: torchvision.transforms.PILToTensor

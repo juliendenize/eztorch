@@ -1,0 +1,5 @@
+_target_: eztorch.schedulers.scheduler_factory
+_recursive_: False
+name: str
+params: {}
+interval: epoch

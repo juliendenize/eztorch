@@ -1,0 +1,99 @@
+
+defaults:
+  - /callback/model_checkpoint@callbacks.model_checkpoint: epoch
+  - /callback/learning_rate_monitor@callbacks.learning_rate_monitor: default
+  - /callback/progress_bar@callbacks.progress_bar: default
+  - /datamodule: kinetics200_frame
+  - /transform/linear_classifier_transform/train@datamodule.train.transform: kinetics_frame_cpu
+  - /transform/linear_classifier_transform/train@model.train_transform: kinetics_gpu
+  - /transform/linear_classifier_transform/val@datamodule.val.transform: kinetics_frame_eval_cpu
+  - /transform/linear_classifier_transform/val@model.val_transform: kinetics_gpu
+  - /transform/linear_classifier_transform/val@datamodule.test.transform: kinetics_frame_eval_cpu
+  - /transform/linear_classifier_transform/val@model.test_transform: kinetics_gpu
+  - /model/supervised/resnet3d/resnet3d18@model: kinetics200
+  - /optimizer/factory/sgd@model.optimizer: default
+  - /scheduler/factory/linear_warmup_cosine_annealing_lr@model.optimizer.scheduler: default
+  - /seed/seed_everything@seed: default
+  - /trainer: gpu_ddp
+  - _self_
+
+callbacks:
+  model_checkpoint:
+    dirpath: supervised_checkpoints
+    every_n_epochs: 100
+    filename: '{epoch}'
+    save_last: False
+    save_top_k: -1
+  progress_bar:
+    refresh_rate: 50
+ckpt_path: null
+datamodule:
+  datadir: ${..dir.data}
+  train:
+    clip_sampler:
+      _target_: eztorch.datasets.clip_samplers.RandomClipSampler
+      clip_duration: 2.56
+    loader:
+      drop_last: True
+      num_workers: 4
+      pin_memory: True
+    global_batch_size: 1024
+  val:
+    clip_sampler:
+      _target_: eztorch.datasets.clip_samplers.RandomClipSampler
+      clip_duration: 2.56
+    loader:
+      drop_last: False
+      num_workers: 4
+      pin_memory: True
+    global_batch_size: 128
+  test:
+    loader:
+      collate_fn: multiple_samples_collate
+      drop_last: False
+      num_workers: 3
+      pin_memory: True
+    global_batch_size: 16
+    clip_sampler:
+      _target_: eztorch.datasets.clip_samplers.ConstantClipsPerVideoSampler
+      clip_duration: 2.56
+      clips_per_video: 10
+      augs_per_clip: 3
+model:
+  optimizer:
+    batch_size: ${...datamodule.train.global_batch_size}
+    exclude_wd_norm: False
+    exclude_wd_bias: False
+    params:
+      nesterov: False
+      momentum: 0.9
+      weight_decay: 1e-4
+    initial_lr: 0.4
+    scaler: linear
+    scheduler:
+      params:
+        max_epochs: ${.....trainer.max_epochs}
+        warmup_epochs: 34
+        eta_min: 0.01
+  test_time_augmentation:
+    name: same_avg
+    num_aug: 30
+test:
+  ckpt_path: null
+seed:
+  seed: 42
+trainer:
+  max_epochs: 200
+  devices: 8
+  log_every_n_steps: ${..callbacks.progress_bar.refresh_rate}
+dir:
+  data: data/
+  root: outputs/moco
+  exp: pretrain_batch_size${..datamodule.train.global_batch_size}_epoch${..trainer.max_epochs}_seed${..seed.seed}/pretrain
+  run: ${.root}/${.exp}
+
+hydra:
+  searchpath:
+    - pkg://eztorch.configs
+  run:
+    dir: ${...dir.run}

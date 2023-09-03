@@ -1,0 +1,9 @@
+_target_: eztorch.transforms.ApplyTransformInputKey
+_recursive_: True
+transform:
+  _target_: torchvision.transforms.RandomResizedCrop
+  size: 224
+  scale: [0.2, 1.]
+  ratio: [1.3275, 2.2125]
+  interpolation: 2
+  antialias: True

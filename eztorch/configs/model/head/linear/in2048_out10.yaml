@@ -1,0 +1,8 @@
+_target_: eztorch.models.heads.LinearHead
+affine: True
+bias: True
+dropout: 0.
+dropout_inplace: True
+input_dim: 2048
+norm_layer: null
+output_dim: 10

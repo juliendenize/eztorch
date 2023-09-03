@@ -1,0 +1,9 @@
+_target_: eztorch.schedulers.scheduler_factory
+_recursive_: False
+name: multi_step_lr
+params:
+  milestones: [60, 80]
+  gamma: 0.1
+  last_epoch: -1
+  verbose: False
+interval: epoch

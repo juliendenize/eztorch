@@ -1,0 +1,83 @@
+defaults:
+  - /datamodule: hmdb51_frame
+  - /callback/progress_bar@callbacks.progress_bar: default
+  - /transform/linear_classifier_transform/val@datamodule.train.transform: kinetics_small_frame_eval_cpu
+  - /transform/linear_classifier_transform/val@datamodule.val.transform: kinetics_small_frame_eval_cpu
+  - /transform/linear_classifier_transform/val@datamodule.test.transform: kinetics_small_frame_eval_cpu
+  - /transform/linear_classifier_transform/val@model.train_transform: kinetics_gpu
+  - /transform/linear_classifier_transform/val@model.val_transform: kinetics_gpu
+  - /transform/linear_classifier_transform/val@model.test_transform: kinetics_gpu
+  - /seed/seed_everything@seed: default
+  - /trainer: gpu
+  - _self_
+
+callbacks:
+  progress_bar:
+    refresh_rate: 50
+datamodule:
+  datadir: ${dir.data}
+  decoder_args:
+    frame_filter:
+      subsample_type: uniform
+      num_samples: 16
+  train:
+    loader:
+      collate_fn: multiple_samples_collate
+      drop_last: False
+      num_workers: 3
+      pin_memory: True
+    global_batch_size: 2
+    clip_sampler:
+      _target_: eztorch.datasets.clip_samplers.ConstantClipsPerVideoSampler
+      clip_duration: 1.28
+      clips_per_video: 10
+      augs_per_clip: 3
+  val:
+    loader:
+      collate_fn: multiple_samples_collate
+      drop_last: False
+      num_workers: 3
+      pin_memory: True
+    global_batch_size: 2
+    clip_sampler:
+      _target_: eztorch.datasets.clip_samplers.ConstantClipsPerVideoSampler
+      clip_duration: 1.28
+      clips_per_video: 10
+      augs_per_clip: 3
+  test: null
+model:
+  trunk:
+    _target_: eztorch.models.trunks.create_resnet3d_basic
+    head: null
+    model_depth: 18
+  head:
+    _target_: eztorch.models.heads.create_video_resnet_head
+    activation: null
+    dropout_rate: 0.
+    in_features: 512
+    num_classes: 0
+    output_size: [1, 1, 1]
+    output_with_global_average: true
+    pool: null
+  pretrained_trunk_path: ???
+  train_time_augmentation:
+    name: same_avg
+    num_aug: 30
+  val_time_augmentation:
+    name: same_avg
+    num_aug: 30
+  test_time_augmentation: null
+  trunk_pattern: '^(trunk\.model\.)'
+seed:
+  seed: 42
+dir:
+  data: data/
+  root: outputs/moco
+  exp: linear_classifier_batch_size${..datamodule.train.global_batch_size}
+  run: ${.root}/${.exp}
+
+hydra:
+  searchpath:
+    - pkg://eztorch.configs
+  run:
+    dir: ${...dir.run}

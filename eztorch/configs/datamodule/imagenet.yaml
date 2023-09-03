@@ -1,0 +1,6 @@
+_target_: eztorch.datamodules.ImagenetDataModule
+_recursive_: False
+datadir: 'data/'
+train: null
+val: null
+test: null

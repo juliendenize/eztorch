@@ -1,0 +1,3 @@
+_target_: lightning.fabric.utilities.seed.seed_everything
+seed: 42
+workers: True

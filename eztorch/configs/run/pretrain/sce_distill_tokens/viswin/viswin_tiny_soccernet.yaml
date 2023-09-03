@@ -1,0 +1,100 @@
+defaults:
+  - /callback/model_checkpoint@callbacks.model_checkpoint: epoch
+  - /callback/learning_rate_monitor@callbacks.learning_rate_monitor: default
+  - /callback/progress_bar@callbacks.progress_bar: default
+  - /datamodule: soccernet
+  - /transform/contrastive@model.train_transform: sce_tokens_one_crop
+  - /model/siamese/sce_distill_tokens@model: default
+  - /model/head/mlp@model.projector: projector_tiny_swin_mlp3
+  - /model/trunk/viswin@model.trunk: tiny_feature_tokens_flatten
+  - /optimizer/factory/adamw@model.optimizer: default
+  - /scheduler/factory/linear_warmup_cosine_annealing_lr@model.optimizer.scheduler: default
+  - /seed/seed_everything@seed: default
+  - /trainer: gpu_ddp_amp
+  - _self_
+
+callbacks:
+  model_checkpoint:
+    dirpath: ${...dir.run}/pretrain_checkpoints
+    every_n_epochs: 50
+    filename: '{epoch}'
+    save_last: False
+    save_top_k: -1
+  progress_bar:
+    refresh_rate: 50
+ckpt_path: null
+datamodule:
+  datadir: ${..dir.data}
+  train:
+    dataset:
+      label_args: null
+      feature_args:
+        dir: ???
+        filename: ???
+        fps: 1
+    decoder_args:
+      transform: null
+    clip_sampler:
+        _target_: eztorch.datasets.clip_samplers.soccernet.RandomWindowSoccerNetClipSampler
+        windows_per_video: 76
+        window_duration: 64.
+        shuffle: True
+    loader:
+      drop_last: True
+      num_workers: 8
+      pin_memory: True
+      shuffle: False
+    global_batch_size: 32
+    transform: null
+  val: null
+  test: null
+model:
+  trunk:
+    transformer:
+      num_frames: 128
+      img_size: 224
+  projector:
+    output_dim: 512
+  queue:
+    size: 65536
+    feature_dim: ${..projector.output_dim}
+  optimizer:
+    batch_size: ${...datamodule.train.global_batch_size}
+    keys_without_decay: [pos_embed, spatial_cls_token, temporal_cls_token, time_embed, temporal_mask_token]
+    exclude_wd_norm: True
+    exclude_wd_bias: True
+    params:
+      weight_decay: 0.05
+    initial_lr: 0.004
+    scaler: linear
+    scheduler:
+      interval: step
+      params:
+        eta_min: 0.00004
+        max_epochs: ${.....trainer.max_epochs}
+        warmup_epochs: 10
+        warmup_start_lr: 0.00004
+  coeff: 0.5
+  normalize_positive_coeff: False
+  temp: 0.1
+  temp_m: 0.05
+  num_global_crops: 1
+  num_out_tokens: 64
+seed:
+  seed: 42
+trainer:
+  max_epochs: 100
+  devices: auto
+  use_distributed_sampler: False
+  gradient_clip_val: 1
+dir:
+  data: data/
+  root: outputs/moco
+  exp: pretrain_batch_size${..datamodule.train.global_batch_size}_epoch${..trainer.max_epochs}_temp${..model.temp}_seed${..seed.seed}/pretrain
+  run: ${.root}/${.exp}
+
+hydra:
+  searchpath:
+    - pkg://eztorch.configs
+  run:
+    dir: ${...dir.run}

@@ -1,0 +1,9 @@
+_target_: torchaug.batch_transforms.BatchImageWrapper
+inplace: True
+transforms:
+- _target_: eztorch.transforms.Div255Input
+  inplace: True
+- _target_: torchaug.transforms.Normalize
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+  inplace: True

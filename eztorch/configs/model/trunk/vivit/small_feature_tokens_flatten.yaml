@@ -1,0 +1,34 @@
+_target_: eztorch.models.trunks.create_vitransformer_token_handler_model
+_recursive_: False
+return_cls_token: False
+return_cls_and_other_tokens: False
+flatten_tokens: True
+average_tokens: False
+separate_spatial_temporal: False
+detach_temporal: False
+transformer:
+  _target_: eztorch.models.trunks.create_vivit_small
+  num_frames: ???
+  img_size: 224
+  patch_size: 16
+  spatial_class_token: True
+  temporal_class_token: False
+  temporal_num_heads: 6
+  in_chans: 3
+  temporal_depth: 4
+  dropout_p: 0.1
+  dropout_rate: 0.
+  attention_dropout_rate: 0.
+  time_dropout_rate: 0.
+  tube_size: 2
+  conv_type: Conv3d
+  use_learnable_pos_emb: True
+  use_learnable_time_emb: True
+  freeze_spatial: False
+  temporal_mask_token: False
+  temporal_mask_ratio: 0.0
+  temporal_mask_tube: 2
+  pretrain_pth: null
+  weights_from: spatial
+  copy_strategy: repeat
+  extend_strategy: temporal_avg

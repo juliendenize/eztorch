@@ -1,0 +1,72 @@
+defaults:
+  - /callback/model_checkpoint@callbacks.model_checkpoint: epoch
+  - /callback/learning_rate_monitor@callbacks.learning_rate_monitor: default
+  - /callback/progress_bar@callbacks.progress_bar: default
+  - /datamodule: imagenet
+  - /transform/linear_classifier_transform/train@datamodule.train.transform: imagenet_cpu
+  - /transform/linear_classifier_transform/val@datamodule.val.transform: imagenet_cpu
+  - /transform/linear_classifier_transform/train@model.train_transform: imagenet_gpu
+  - /transform/linear_classifier_transform/val@model.val_transform: imagenet_gpu
+  - /evaluation/linear_classifier/resnet/resnet50@model: imagenet
+  - /optimizer/factory/sgd@model.optimizer: default
+  - /scheduler/factory/linear_warmup_cosine_annealing_lr@model.optimizer.scheduler: default
+  - /seed/seed_everything@seed: default
+  - /trainer: gpu_ddp
+  - _self_
+
+callbacks:
+  model_checkpoint:
+    dirpath: linear_classifier_checkpoints
+    every_n_epochs: 1
+    monitor: val/acc_1
+    mode: max
+    save_top_k: 1
+    save_last: True
+  progress_bar:
+    refresh_rate: 50
+ckpt_path: null
+datamodule:
+  datadir: ${dir.data}
+  train:
+    loader:
+      drop_last: True
+      num_workers: 4
+      pin_memory: True
+    global_batch_size: 1024
+  val:
+    loader:
+      drop_last: False
+      num_workers: 4
+      pin_memory: True
+    global_batch_size: 256
+model:
+  optimizer:
+    batch_size: ${...datamodule.train.global_batch_size}
+    exclude_wd_norm: False
+    exclude_wd_bias: False
+    initial_lr: 0.1
+    params:
+      momentum: 0.9
+      weight_decay: 0
+    scaler: linear
+    scheduler:
+      params:
+        max_epochs: ${.....trainer.max_epochs}
+        warmup_epochs: 0
+seed:
+  seed: 42
+trainer:
+  devices: 8
+  max_epochs: 90
+  log_every_n_steps: ${..callbacks.progress_bar.refresh_rate}
+dir:
+  data: data/
+  root: outputs/moco
+  exp: linear_classifier_batch_size${..datamodule.train.global_batch_size}
+  run: ${.root}/${.exp}
+
+hydra:
+  searchpath:
+    - pkg://eztorch.configs
+  run:
+    dir: ${...dir.run}

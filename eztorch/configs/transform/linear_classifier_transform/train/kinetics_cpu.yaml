@@ -1,0 +1,13 @@
+_target_: eztorch.transforms.OnlyInputTransform
+_recursive_: True
+transform:
+  _target_: torchvision.transforms.Compose
+  transforms:
+  - _target_: pytorchvideo.transforms.UniformTemporalSubsample
+    num_samples: 8
+  - _target_: pytorchvideo.transforms.RandomShortSideScale
+    interpolation: bilinear
+    min_size: 256
+    max_size: 320
+  - _target_: torchvision.transforms.RandomCrop
+    size: 224

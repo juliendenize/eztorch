@@ -1,0 +1,19 @@
+_target_: eztorch.datamodules.ucf101.Ucf101DataModule
+_recursive_: False
+datadir: ???
+train: ???
+val: ???
+test: ???
+video_path_prefix: ${.datadir}
+split_id: 1
+decode_audio: False
+decoder: frame
+decoder_args:
+  fps: 25
+  frame_filter:
+    subsample_type: uniform
+    num_samples: 8
+  time_difference_prob: 0.
+  num_threads_io: 4
+  num_threads_decode: 4
+  decode_float: True

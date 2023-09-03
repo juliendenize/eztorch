@@ -1,0 +1,15 @@
+defaults:
+  - /model/trunk/resnet3d/resnet3d50@trunk: no_fc_no_head
+  - /model/head/linear3d@classifier: r3d50_kinetics400
+
+_target_: eztorch.evaluation.LinearClassifierEvaluation
+_recursive_: False
+optimizer: ???
+pretrained_trunk_path: ???
+val_time_augmentation:
+  name: same_avg
+  num_aug: 30
+test_time_augmentation:
+  name: same_avg
+  num_aug: 30
+trunk_pattern: '^(trunk\.model\.)'

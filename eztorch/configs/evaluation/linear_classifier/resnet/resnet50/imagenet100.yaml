@@ -1,0 +1,8 @@
+defaults:
+  - /model/trunk/resnet/resnet50@trunk: no_fc
+  - /model/head/linear@classifier: in2048_out100
+
+_target_: eztorch.evaluation.LinearClassifierEvaluation
+_recursive_: False
+optimizer: ???
+pretrained_trunk_path: ???

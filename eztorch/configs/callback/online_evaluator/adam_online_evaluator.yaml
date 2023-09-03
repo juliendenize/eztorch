@@ -1,0 +1,10 @@
+defaults:
+  - /optimizer/factory/adam@optimizer: default
+
+_target_: eztorch.callbacks.OnlineEvaluator
+_recursive_: False
+classifier: ???
+optimizer:
+  initial_lr: 1.e-4
+input_name: h
+precision: 32

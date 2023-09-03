@@ -1,0 +1,27 @@
+_target_: eztorch.datamodules.Kinetics200DataModule
+_recursive_: False
+datadir: ???
+train:
+  dataset:
+    datadir:  ${...datadir}/train.csv
+    video_path_prefix: ${...datadir}/train
+val:
+  dataset:
+    datadir:  ${...datadir}/val.csv
+    video_path_prefix: ${...datadir}/val
+test:
+  dataset:
+    datadir:  ${...datadir}/val.csv
+    video_path_prefix: ${...datadir}/val
+video_path_prefix: ${.datadir}
+decode_audio: False
+decoder: frame
+decoder_args:
+  fps: 30
+  frame_filter:
+    subsample_type: uniform
+    num_samples: 8
+  time_difference_prob: 0.
+  num_threads_io: 4
+  num_threads_decode: 4
+  decode_float: True

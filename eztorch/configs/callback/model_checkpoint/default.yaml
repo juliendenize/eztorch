@@ -1,0 +1,15 @@
+_target_: eztorch.callbacks.ModelCheckpoint
+dirpath: checkpoints/
+filename: null
+monitor: null
+verbose: False
+save_last: null
+save_top_k: 1
+save_weights_only: False
+mode: min
+auto_insert_metric_name: True
+every_n_train_steps: null
+train_time_interval: null
+every_n_epochs: null
+save_on_train_epoch_end: null
+every_n_val_epochs: null

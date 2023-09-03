@@ -1,0 +1,4 @@
+_target_: eztorch.schedulers.weight_decay_scheduler_factory
+_recursive_: False
+scheduler: cosine
+id_groups: [0]

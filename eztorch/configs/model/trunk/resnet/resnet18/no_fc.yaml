@@ -1,0 +1,4 @@
+_target_: eztorch.models.trunks.create_resnet
+name: resnet18
+num_classes: 0
+small_input: False

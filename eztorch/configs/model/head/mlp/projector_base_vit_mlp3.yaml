@@ -1,0 +1,15 @@
+_target_: eztorch.models.heads.MLPHead
+activation_inplace: False
+activation_layer: gelu
+affine: False
+bias: True
+dropout: 0.
+dropout_inplace: True
+hidden_dims: [2048, 2048]
+input_dim: 768
+norm_layer: null
+num_layers: 3
+last_bias: True
+last_norm: False
+last_affine: False
+output_dim: 256

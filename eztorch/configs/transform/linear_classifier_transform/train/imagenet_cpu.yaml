@@ -1,0 +1,6 @@
+_target_: torchvision.transforms.Compose
+_recursive_: True
+transforms:
+- _target_: torchvision.transforms.RandomResizedCrop
+  size: 224
+- _target_: torchvision.transforms.PILToTensor

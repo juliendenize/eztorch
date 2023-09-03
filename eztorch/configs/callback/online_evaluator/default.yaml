@@ -1,0 +1,6 @@
+_target_: eztorch.callbacks.OnlineEvaluator
+_recursive_: False
+classifier: ???
+optimizer: ???
+precision: 32
+input_name: h

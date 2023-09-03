@@ -1,0 +1,7 @@
+_target_: eztorch.callbacks.ModelCheckpoint
+dirpath: checkpoints/
+filename: '{epoch}'
+save_last: True
+save_top_k: 0
+mode: min
+every_n_epochs: ???

@@ -1,0 +1,10 @@
+**/__pycache__
+**/outputs
+**/.ipynb_checkpoints
+**/.vscode
+**/.pytest_cache
+*.egg-info
+coverage
+docs/build
+notebooks
+build/

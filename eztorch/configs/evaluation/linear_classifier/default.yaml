@@ -1,0 +1,6 @@
+_target_: 'eztorch.evaluation.LinearClassifierEvaluation'
+_recursive_: False
+trunk: ???
+classifier: ???
+optimizer: ???
+pretrained_trunk_path: ???

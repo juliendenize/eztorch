@@ -1,0 +1,6 @@
+_target_: eztorch.datamodules.CIFAR10DataModule
+_recursive_: False
+datadir: 'data/'
+train: null
+val: null
+test: null

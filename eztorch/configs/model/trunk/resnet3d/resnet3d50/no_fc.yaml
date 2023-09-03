@@ -1,0 +1,17 @@
+_target_: eztorch.models.trunks.create_video_head_model
+_recursive_: False
+model:
+  _target_: pytorchvideo.models.resnet.create_resnet
+  head: null
+  model_depth: 50
+  stem_conv_kernel_size: [1, 7, 7]
+head:
+  _target_: eztorch.models.heads.create_video_resnet_head
+  activation: null
+  dropout_rate: 0.
+  in_features: 2048
+  num_classes: 0
+  output_size: [1, 1, 1]
+  output_with_global_average: true
+  pool: null
+  pool_kernel_size: [8, 7, 7]

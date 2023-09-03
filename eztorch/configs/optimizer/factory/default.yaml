@@ -1,0 +1,10 @@
+_target_: eztorch.optimizers.optimizer_factory
+_recursive_: False
+exclude_wd_norm: False
+exclude_wd_bias: False
+name: ???
+params: {}
+batch_size: null
+initial_lr: ???
+scaler: null
+scheduler: null

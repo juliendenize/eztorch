@@ -1,0 +1,15 @@
+_target_: eztorch.models.siamese.MoCov3Model
+_recursive_: False
+initial_momentum: 0.99
+mutual_pass: False
+normalize_outputs: True
+num_global_crops: 2
+num_local_crops: 0
+num_splits: 0
+num_splits_per_combination: 2
+optimizer: ???
+predictor: null
+projector: null
+scheduler_momentum: cosine
+temp: 1.
+trunk: ???

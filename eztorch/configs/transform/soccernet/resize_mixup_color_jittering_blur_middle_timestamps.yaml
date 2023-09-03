@@ -1,0 +1,41 @@
+_target_: torch.nn.Sequential
+_recursive_: True
+_args_:
+- _target_: eztorch.transforms.ApplyTransformInputKey
+  _recursive_: True
+  transform:
+    _target_: torch.nn.Sequential
+    _args_:
+    - _target_: torchaug.batch_transforms.BatchVideoWrapper
+      same_on_frames: True
+      video_format: CTHW
+      inplace: True
+      transforms:
+      - _target_: torchaug.batch_transforms.BatchVideoResize
+        antialias: True
+        size: [224, 224]
+        video_format: TCHW
+      - _target_: eztorch.transforms.Div255Input
+        inplace: True
+      - _target_: torchaug.batch_transforms.BatchRandomColorJitter
+        brightness: 0.4
+        contrast: 0.4
+        hue: 0.
+        p: 0.8
+        saturation: 0.4
+        inplace: True
+      - _target_: torchaug.batch_transforms.BatchRandomGaussianBlur
+        kernel_size: 23
+        sigma: [0.1, 2.]
+        p: 0.5
+        inplace: True
+      - _target_: torchaug.batch_transforms.BatchRandomHorizontalFlip
+        p: 0.5
+        inplace: True
+      - _target_: torchaug.transforms.Normalize
+        mean: [0.45, 0.45, 0.45]
+        std: [0.225, 0.225, 0.225]
+        inplace: True
+- _target_: eztorch.transforms.video.soccernet.BatchMiddleTimestamps
+- _target_: eztorch.transforms.video.spot.SpottingMixup
+  alpha: 0.1

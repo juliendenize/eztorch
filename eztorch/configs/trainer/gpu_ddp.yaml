@@ -1,0 +1,12 @@
+_target_: lightning.pytorch.trainer.Trainer
+accelerator: gpu
+benchmark: True
+devices: ???
+num_nodes: 1
+max_epochs: ???
+precision: 32
+strategy:
+  _target_: lightning.pytorch.strategies.DDPStrategy
+  find_unused_parameters: False
+  static_graph: False
+sync_batchnorm: False

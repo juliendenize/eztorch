@@ -1,0 +1,6 @@
+_target_: eztorch.transforms.LinearClassifierTrainTransform
+_recursive_: True
+random_resized_crop: ???
+random_horizontal_flip: ???
+to_tensor: ???
+normalize: ???

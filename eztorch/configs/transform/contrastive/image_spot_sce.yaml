@@ -1,0 +1,50 @@
+_target_: eztorch.transforms.ApplyTransformsOnList
+_recursive_: True
+transforms:
+- _target_: torchaug.batch_transforms.BatchImageWrapper
+  inplace: True
+  transforms:
+  - _target_: eztorch.transforms.Div255Input
+    inplace: True
+  - _target_: torchaug.batch_transforms.BatchRandomColorJitter
+    brightness: 0.4
+    contrast: 0.4
+    hue: 0.1
+    p: 0.8
+    saturation: 0.2
+  - _target_: torchaug.batch_transforms.BatchRandomGrayScale
+    p: 0.2
+  - _target_: torchaug.batch_transforms.BatchRandomGaussianBlur
+    kernel_size: 23
+    sigma: [0.1, 2.]
+    p: 1.
+  - _target_: torchaug.batch_transforms.BatchRandomHorizontalFlip
+    p: 0.5
+  - _target_: torchaug.transforms.Normalize
+    mean: [0.45, 0.45, 0.45]
+    std: [0.225, 0.225, 0.225]
+- _target_: torchaug.batch_transforms.BatchImageWrapper
+  inplace: True
+  transforms:
+  - _target_: eztorch.transforms.Div255Input
+    inplace: True
+  - _target_: torchaug.batch_transforms.BatchRandomColorJitter
+    brightness: 0.4
+    contrast: 0.4
+    hue: 0.1
+    p: 0.8
+    saturation: 0.2
+  - _target_: torchaug.batch_transforms.BatchRandomGrayScale
+    p: 0.2
+  - _target_: torchaug.batch_transforms.BatchRandomGaussianBlur
+    kernel_size: 23
+    sigma: [0.1, 2.]
+    p: 0.1
+  - _target_: torchaug.batch_transforms.BatchRandomSolarize
+    p: 0.2
+    threshold: 0.5
+  - _target_: torchaug.batch_transforms.BatchRandomHorizontalFlip
+    p: 0.5
+  - _target_: torchaug.transforms.Normalize
+    mean: [0.45, 0.45, 0.45]
+    std: [0.225, 0.225, 0.225]

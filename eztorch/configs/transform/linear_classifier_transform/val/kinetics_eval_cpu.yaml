@@ -1,0 +1,13 @@
+_target_: eztorch.transforms.OnlyInputTransformWithDictTransform
+_recursive_: True
+transform:
+  _target_: torchvision.transforms.Compose
+  transforms:
+  - _target_: pytorchvideo.transforms.UniformTemporalSubsample
+    num_samples: 8
+  - _target_: pytorchvideo.transforms.ShortSideScale
+    size: 256
+dict_transform:
+  _target_: pytorchvideo.transforms.UniformCropVideo
+  size: 256
+  video_key: input

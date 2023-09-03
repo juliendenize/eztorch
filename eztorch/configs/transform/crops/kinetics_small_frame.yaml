@@ -1,0 +1,9 @@
+_target_: eztorch.transforms.OnlyInputListTransform
+_recursive_: True
+transform:
+  _target_: eztorch.transforms.video.RandomResizedCrop
+  target_height: 112
+  target_width: 112
+  scale: [0.2, 0.766]
+  aspect_ratio: [0.75, 1.3333]
+  interpolation: bilinear

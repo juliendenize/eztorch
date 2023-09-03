@@ -1,0 +1,63 @@
+_target_: eztorch.transforms.MultiCropTransform
+_recursive_: True
+set_transforms:
+  - num_views: 2
+    transform:
+      _target_: torchvision.transforms.Compose
+      _recursive_: True
+      transforms:
+        - _target_: torchvision.transforms.RandomResizedCrop
+          interpolation: 2
+          ratio: [0.75, 1.333333]
+          size: 224
+          scale: [0.2, 1.0]
+          antialias: True
+        - _target_: torchvision.transforms.PILToTensor
+  - num_views: 1
+    transform:
+      _target_: torchvision.transforms.Compose
+      _recursive_: True
+      transforms:
+        - _target_: torchvision.transforms.RandomResizedCrop
+          interpolation: 2
+          ratio: [0.75, 1.333333]
+          size: 192
+          scale: [0.172, 0.86]
+          antialias: True
+        - _target_: torchvision.transforms.PILToTensor
+  - num_views: 1
+    transform:
+      _target_: torchvision.transforms.Compose
+      _recursive_: True
+      transforms:
+        - _target_: torchvision.transforms.RandomResizedCrop
+          interpolation: 2
+          ratio: [0.75, 1.333333]
+          size: 160
+          scale: [0.143, 0.715]
+          antialias: True
+        - _target_: torchvision.transforms.PILToTensor
+  - num_views: 1
+    transform:
+      _target_: torchvision.transforms.Compose
+      _recursive_: True
+      transforms:
+        - _target_: torchvision.transforms.RandomResizedCrop
+          interpolation: 2
+          ratio: [0.75, 1.333333]
+          size: 128
+          scale: [0.114, 0.571]
+          antialias: True
+        - _target_: torchvision.transforms.PILToTensor
+  - num_views: 1
+    transform:
+      _target_: torchvision.transforms.Compose
+      _recursive_: True
+      transforms:
+        - _target_: torchvision.transforms.RandomResizedCrop
+          interpolation: 2
+          ratio: [0.75, 1.333333]
+          size: 96
+          scale: [0.086, 0.429]
+          antialias: True
+        - _target_: torchvision.transforms.PILToTensor

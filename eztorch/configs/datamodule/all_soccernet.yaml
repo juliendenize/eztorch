@@ -1,0 +1,63 @@
+_target_: eztorch.datamodules.SoccerNetDataModule
+_recursive_: False
+datadir: ???
+train:
+  dataset:
+    datadir:  ${...datadir}/train.json
+    video_path_prefix: ${...video_path_prefix}/
+    label_args: null
+    feature_args: null
+    task: all
+  decoder_args:
+    fps: ${...decoder_args.fps}
+    num_threads_io: 4
+    num_threads_decode: 4
+    num_decode: 1
+    time_difference_prob: 0.
+    mask_ratio: 0.
+    mask_tube: 2
+    transform: null
+val:
+  dataset:
+    datadir:  ${...datadir}/val.json
+    video_path_prefix: ${...video_path_prefix}/
+    label_args: null
+    feature_args: null
+    ignore_seconds_yellow_to_red: 0
+    task: ${...train.dataset.task}
+  decoder_args:
+    fps: ${...decoder_args.fps}
+    num_threads_io: 4
+    num_threads_decode: 4
+    num_decode: 1
+    time_difference_prob: 0.
+    mask_ratio: 0.
+    mask_tube: 2
+    transform: null
+test:
+  dataset:
+    datadir:  ${...datadir}/val.json
+    video_path_prefix: ${...video_path_prefix}/
+    label_args: null
+    feature_args: null
+    task: ${...train.dataset.task}
+  decoder_args:
+    fps: ${...decoder_args.fps}
+    num_threads_io: 4
+    num_threads_decode: 4
+    num_decode: 1
+    time_difference_prob: 0.
+    mask_ratio: 0.
+    mask_tube: 2
+    transform: null
+video_path_prefix: ${.datadir}
+decoder: frame
+decoder_args:
+  fps: 4
+  num_threads_io: 4
+  num_threads_decode: 4
+  num_decode: 1
+  time_difference_prob: 0.
+  transform: null
+  mask_ratio: 0.
+  mask_tube: 2

@@ -1,0 +1,15 @@
+_target_: eztorch.optimizers.optimizer_factory
+_recursive_: False
+exclude_wd_norm: False
+exclude_wd_bias: False
+name: sgd
+params:
+  momentum: 0.9
+  dampening: 0
+  nesterov: False
+  weight_decay: 0.
+batch_size: null
+initial_lr: 0.06
+layer_decay_lr: null
+scaler: null
+scheduler: null

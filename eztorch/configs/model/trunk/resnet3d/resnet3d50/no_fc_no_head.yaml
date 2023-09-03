@@ -1,0 +1,4 @@
+_target_: pytorchvideo.models.resnet.create_resnet
+head: null
+model_depth: 50
+stem_conv_kernel_size: [1, 7, 7]

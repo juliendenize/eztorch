@@ -1,0 +1,12 @@
+_target_: eztorch.models.siamese.SimCLRModel
+_recursive_: False
+mutual_pass: False
+normalize_outputs: True
+num_global_crops: 2
+num_local_crops: 0
+num_splits: 0
+num_splits_per_combination: 2
+optimizer: ???
+projector: null
+temp: 0.1
+trunk: ???

@@ -1,0 +1,3 @@
+_target_: eztorch.models.trunks.create_resnet3d_basic
+head: null
+model_depth: 18

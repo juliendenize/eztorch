@@ -1,0 +1,28 @@
+defaults:
+  - /seed/seed_everything@seed: default
+  - _self_
+
+ranks: [1, 5, 10, 15, 20, 25]
+
+query:
+  center: True
+  normalize: True
+  features_path: ???
+  labels_path: ???
+
+bank:
+  center: True
+  normalize: True
+  features_path: ???
+  labels_path: ???
+
+dir:
+  root: outputs/moco
+  exp: linear_classifier_batch_size${..datamodule.train.global_batch_size}
+  run: ${.root}/${.exp}
+
+hydra:
+  searchpath:
+    - pkg://eztorch.configs
+  run:
+    dir: ${...dir.run}

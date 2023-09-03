@@ -1,0 +1,19 @@
+_target_: eztorch.models.supervised.SupervisedModel
+_recursive_: False
+model:
+  _target_: eztorch.models.trunks.create_video_head_model
+  _recursive_: False
+  model:
+    _target_: eztorch.models.trunks.create_resnet3d_basic
+    head: null
+    model_depth: 18
+  head:
+    _target_: eztorch.models.heads.create_video_resnet_head
+    activation: null
+    dropout_rate: 0.5
+    in_features: 512
+    num_classes: 200
+    output_size: [1, 1, 1]
+    output_with_global_average: true
+    pool: adaptive_avg_pool_3d
+    pool_kernel_size: [8, 7, 7]

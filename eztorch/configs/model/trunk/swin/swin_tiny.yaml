@@ -1,0 +1,16 @@
+_target_: eztorch.models.trunks.create_swin_tiny
+img_size: 224
+in_chans: 3
+global_pool: "avg"
+mlp_ratio: 4.0
+qkv_bias: True
+drop_rate: 0.0
+attn_drop_rate: 0.0
+drop_path_rate: 0.1
+norm_layer: null
+ape: False
+patch_norm: True
+weight_init: ""
+conv_type: Conv2d
+tube_size: 1
+pretrain_pth: null

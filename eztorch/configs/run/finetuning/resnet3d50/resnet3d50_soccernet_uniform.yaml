@@ -1,0 +1,121 @@
+defaults:
+  - /callback/model_checkpoint@callbacks.model_checkpoint: epoch
+  - /callback/learning_rate_monitor@callbacks.learning_rate_monitor: default
+  - /callback/progress_bar@callbacks.progress_bar: default
+  - /datamodule: soccernet
+  - /model/finetuning/action_spotting@model: resnet3d50
+  - /transform/soccernet@model.train_transform: resize_mixup_color_jittering_blur_middle_timestamps
+  - /transform/soccernet@model.val_transform: resize_normalize_middle_timestamps
+  - /transform/soccernet@model.test_transform: resize_normalize_middle_timestamps
+  - /optimizer/factory/sgd@model.optimizer: default
+  - /scheduler/factory/linear_warmup_cosine_annealing_lr@model.optimizer.scheduler: default
+  - /seed/seed_everything@seed: default
+  - /trainer: gpu_ddp_amp
+  - _self_
+
+callbacks:
+  model_checkpoint:
+    dirpath: checkpoints
+    every_n_epochs: 10
+    filename: '{epoch}'
+    save_last: True
+    save_top_k: 1
+    monitor: tight_Average_mAP/mAP
+    mode: max
+  progress_bar:
+    refresh_rate: 50
+ckpt_path: null
+datamodule:
+  datadir: ${..dir.data}
+  train:
+    decoder_args:
+      fps: 4
+      min_clip_duration: ${..clip_sampler.window_duration}
+    dataset:
+      label_args:
+        cache_dir: ???
+        radius_label: 0.5
+    clip_sampler:
+        _target_: eztorch.datasets.clip_samplers.soccernet.UniformWindowWithoutOverlapSoccerNetClipSampler
+        window_duration: 4.
+        windows_per_video: 200
+        sample_edges: True
+        prevent_resample_edges: True
+        shuffle: True
+    loader:
+      drop_last: True
+      num_workers: 8
+      pin_memory: True
+      shuffle: False
+    global_batch_size: 256
+    transform: null
+  val:
+    decoder_args:
+      fps: 4
+    clip_sampler:
+      _target_: eztorch.datasets.clip_samplers.soccernet.SlidingWindowSoccerNetClipSampler
+      window_duration: 4.
+      overlap_window: 3.5
+      shuffle: True
+    loader:
+      drop_last: False
+      num_workers: 8
+      pin_memory: True
+      shuffle: False
+    global_batch_size: 256
+    transform: null
+  test:
+    decoder_args:
+      fps: 4
+    clip_sampler:
+      _target_: eztorch.datasets.clip_samplers.soccernet.SlidingWindowSoccerNetClipSampler
+      window_duration: 4.
+      overlap_window: 0.
+      shuffle: True
+    loader:
+      drop_last: False
+      num_workers: 8
+      pin_memory: True
+      shuffle: False
+    transform: null
+    global_batch_size: 256
+model:
+  optimizer:
+    batch_size: ${...datamodule.train.global_batch_size}
+    exclude_wd_norm: True
+    exclude_wd_bias: True
+    params:
+      weight_decay: 0.00005
+    initial_lr: 1.
+    scaler: linear
+    scheduler:
+      interval: step
+      params:
+        eta_min: 0.
+        max_epochs: ${.....trainer.max_epochs}
+        warmup_epochs: 10
+        warmup_start_lr: 0.
+  evaluation_args:
+    split: valid
+  prediction_args:
+    remove_inference_prediction_seconds: 0
+  loss_fn_args:
+    class_weights:
+      type: null
+seed:
+  seed: 42
+trainer:
+  max_epochs: 100
+  devices: auto
+  check_val_every_n_epoch: 10
+  use_distributed_sampler: False
+dir:
+  data: data/
+  root: outputs/moco
+  exp: action_spotting
+  run: ${.root}/${.exp}
+hydra:
+  searchpath:
+    - pkg://eztorch.configs
+  run:
+    dir: ${...dir.run}

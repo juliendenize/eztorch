@@ -1,0 +1,6 @@
+_target_: eztorch.transforms.LinearClassifierValTransform
+_recursive_: True
+resize: ???
+center_crop: ???
+to_tensor: ???
+normalize: ???

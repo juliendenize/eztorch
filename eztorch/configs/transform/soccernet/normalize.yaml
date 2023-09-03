@@ -1,0 +1,10 @@
+_target_: torchaug.batch_transforms.BatchVideoWrapper
+same_on_frames: True
+video_format: CTHW
+inplace: True
+transforms:
+- _target_: eztorch.transforms.Div255Input
+- _target_: torchaug.transforms.VideoNormalize
+  mean: [0.45, 0.45, 0.45]
+  std: [0.225, 0.225, 0.225]
+  video_format: CTHW
