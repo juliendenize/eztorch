@@ -15,28 +15,13 @@ For ImageNet100 and [Tiny-ImageNet](https://www.kaggle.com/c/tiny-imagenet), we 
 In Eztorch, ImageNet100 is directly handled from the ImageNet folder.
 
 ## Video datasets
-
-Generally we follow form [Pytorchvideo](https://pytorchvideo.readthedocs.io/en/latest/data_preparation.html) with some adjustements and helpers.
+Generally, we follow from [Pytorchvideo](https://pytorchvideo.readthedocs.io/en/latest/data_preparation.html) with some adjustments and helpers.
 ### Kinetics400
 
 1. [Download and extract](https://github.com/cvdfoundation/kinetics-dataset) the dataset.
 
 2. Resize the shorter edge size of the videos to 256.
-
-    ```bash
-    cd eztorch
-
-    input_folder="./raw_kinetics/train/"
-    output_folder="./kinetics_downscaled/train/"
-
-    python run/datasets/process_video.py \
-        --input-folder $input_folder \
-        --output-folder $output_folder \
-        --downscale \
-        --downscale-size 256
-
-    ```
-3. Prepare a csv file that contains the path and the labels.
+Prepare a CSV file that contains the path and the labels.
 
     ```bash
     cd eztorch
@@ -66,7 +51,7 @@ Generally we follow form [Pytorchvideo](https://pytorchvideo.readthedocs.io/en/l
         --fps 30
     ```
 
-5. [Optional] Prepare a csv file that contains the path, the labels and video duration.
+5. [Optional] Prepare a CSV file that contains the path, the labels and video duration.
 
     ```bash
     cd eztorch
@@ -88,7 +73,7 @@ Keep in mind that our configuration files do not use the frame decoder but PYAV.
 
 ### Kinetics200
 
-1. Do steps 1 and 2 of the preprocessing of Kinetcs400 and create a folder containing symbolic link for videos in Kinetics200. Then performs step 3 of the preprocessing of Kinetics400.
+1. Do steps 1 and 2 of the preprocessing of Kinetcs400 and create a folder containing symbolic links for videos in Kinetics200. Then perform step 3 of the preprocessing of Kinetics400.
 
 2. [Optional] Extract the frames to speed data loading.
     ```bash
@@ -105,21 +90,8 @@ Keep in mind that our configuration files do not use the frame decoder but PYAV.
         --fps 30
     ```
 
-3. [Optional] Prepare a csv file that contains the path, the labels and video duration.
-
-    ```bash
-    cd eztorch
-
-    input_folder="./kinetics200_downscaled_extracted/train/"
-    output_folder="./kinetics200_downscaled_extracted/"
-    output_filename="train.json"
-
-    python run/datasets/create_frames_video_files.py \
-        --input-folder $input_folder \
-        --output-folder $output_folder \
-        --output-filename $output_filename
-    ```
-Although step 2 and 3 are optional, we performed those and our configured scripts for Kinetics200 use a frame decoder. It is possible to update them to use a video decoder in case you do not want to extract the frames.
+3. [Optional] Prepare a CSV file that contains the path, the labels and video duration.
+Although steps 2 and 3 are optional, we performed those and our configured scripts for Kinetics200 use a frame decoder. It is possible to update them to use a video decoder in case you do not want to extract the frames.
 
 
 ### HMDB51
@@ -141,7 +113,7 @@ Although step 2 and 3 are optional, we performed those and our configured script
         --fps 30
     ```
 
-3. [Optional] Prepare a csv file that contains the path, the labels and video duration.
+3. [Optional] Prepare a CSV file that contains the path, the labels and video duration.
 
     ```bash
     cd eztorch
@@ -155,7 +127,7 @@ Although step 2 and 3 are optional, we performed those and our configured script
         --dataset hmdb51
     ```
 
-Although step 2 and 3 are optional, we performed those and our configured scripts for HMDB51 use a frame decoder. It is possible to update them to use a video decoder in case you do not want to extract the frames.
+Although steps 2 and 3 are optional, we performed those and our configured scripts for HMDB51 use a frame decoder. It is possible to update them to use a video decoder in case you do not want to extract the frames.
 
 ### UCF101
 
@@ -176,7 +148,7 @@ Although step 2 and 3 are optional, we performed those and our configured script
         --fps 25
     ```
 
-3. [Optional] Prepare a csv file that contains the path, the labels and video duration.
+3. [Optional] Prepare a CSV file that contains the path, the labels and videos duration.
 
     ```bash
     cd eztorch
@@ -190,13 +162,13 @@ Although step 2 and 3 are optional, we performed those and our configured script
         --dataset ucf101
     ```
 
-Although step 2 and 3 are optional, we performed those and our configured scripts for HMDB51 use a frame decoder. It is possible to update them to use a video decoder in case you do not want to extract the frames.
+Although steps 2 and 3 are optional, we performed those and our configured scripts for HMDB51 use a frame decoder. It is possible to update them to use a video decoder in case you do not want to extract the frames.
 
 ## SoccerNet
 
-We followed the guide from the [challenge 2023 of SoccerNet](https://www.soccer-net.org/data) with some adjustements.
+We followed the guide from the [challenge 2023 of SoccerNet](https://www.soccer-net.org/data) with some adjustments.
 
-In our code we use ``"val"`` split instead of ``"valid"`` split from SoccerNet to keep consistancy with other datasets.
+In our code, we use ``"val"`` split instead of ``"valid"`` split from SoccerNet to keep consistency with other datasets.
 
 ### Action Spotting
 
@@ -287,4 +259,4 @@ The extraction also creates an annotation file for the split.
     ```
 
 ## Issue
-If you have trouble making this work or have any question, open an [issue](https://github.com/juliendenize/eztorch/issues) to describe your problem.
+If you have trouble making this work or have any questions, open an [issue](https://github.com/juliendenize/eztorch/issues) to describe your problem.

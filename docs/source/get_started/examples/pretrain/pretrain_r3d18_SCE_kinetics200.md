@@ -2,7 +2,7 @@
 
 In this guide, we provide steps to pretrain a R3D-18 using SCE on Kinetics200.
 
-The first section will focus on defining the configuration and the second one to actually launch the training.
+The first section will focus on defining the configuration and the second one to launch the training.
 
 ## Define the configuration
 
@@ -20,7 +20,7 @@ datamodule:
   video_path_prefix: ${.datadir}
 ```
 
-For a video datamodule, it needs to be specified the decoder, along with its parameters, used which can be Pyav, or the raw frames decoder, ... For this example we use the raw frames decoder.
+For a video datamodule, it needs to be specified the decoder used such as Pyav, frames etc., along with its parameters. For this example, we use the frames decoder.
 
 ```yaml
 datamodule:
@@ -36,7 +36,7 @@ datamodule:
     decode_float: true
 ```
 
-For each set used during the fit of the model, usually train and validation, there needs to be passed information about the clip sampler, the transform applied to each clip and the configuration for the dataloaders.
+For each set used during the fit of the model, usually training and validation, there needs to be passed information about the clip sampler, the transform applied to each clip and the configuration for the dataloaders.
 
 ```yaml
 datamodule:
@@ -74,19 +74,19 @@ datamodule:
 
 ### Define the model
 
-We will use the `SCEModel`. SCE as siamese self-supervised learning method defines several networks. It is composed of an online branch updated by backpropagation and a momentum target branch updated by exponential moving average of the online branch.
+We will use the `SCEModel`. SCE as a siamese self-supervised learning method defines several networks. It is composed of an online branch updated by backpropagation and a momentum target branch updated by the exponential moving average of the online branch.
 
-The online branch consists in an encoder, or trunk, a projector and a predictor. The target branch has the same architecture as the online one without the predictor.
+The online branch consists of an encoder, or trunk, a projector and a predictor. The target branch has the same architecture as the online one without the predictor.
 
-We first need to tell hydra which model to instantiate:
+We first need to tell Hydra which model to instantiate:
 ```yaml
 model:
   _target_: eztorch.models.siamese.SCEModel
   _recursive_: false
 ```
 
-Each neural networks architecture of SCE must also be defined:
-- A trunk to learn representations such as ResNet3D 50
+Each neural network architecture of SCE must also be defined:
+- A trunk to learn representations such as ResNet3D18
 ```yaml
 model:
     trunk:
@@ -107,7 +107,7 @@ model:
       pool: null
       pool_kernel_size: [8, 7, 7]
 ```
-- A projector, that is a rather small MLP network, to project data in a lower dimensional space invariant to data augmentation:
+- A projector, which is a rather small MLP network, to project data in a lower dimensional space invariant to data augmentation:
 ```yaml
 model:
   projector:
@@ -129,7 +129,7 @@ model:
     last_affine: false
     output_dim: 256
 ```
-- A predictor, small than the projector, to predict the output projection of the target encoder
+- A predictor, smaller than the projector, to predict the output projection of the target encoder
 ```yaml
 model:
   predictor:
@@ -151,7 +151,7 @@ model:
     output_dim: 256
 ```
 
-Now we can provide the configuration to correctly setup the pipeline of the method:
+Now we can provide the configuration to correctly configure the SCE model:
 ```yaml
 model:
   coeff: 0.5
@@ -212,7 +212,7 @@ model:
       interval: step
 ```
 
-SCEModel supports GPU transform to speed-up data augmentations for training and/or validation, and we specify the configuration of the contrastive transforms:
+SCEModel supports GPU transform to speed up data augmentations for training and/or validation, and we specify the configuration of the contrastive transforms:
 ```yaml
 model:
   train_transform:
@@ -302,7 +302,7 @@ model:
 
 To run our experiment, we need to define a [trainer](https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html#trainer-class-api) from Pytorch-Lightning.
 
-It allows us to specify the number and type of devices used, configure average mixed precision, whether to use synchronized batch normalization or not, ...:
+It allows us to specify the number and type of devices used, configure average mixed precision, and whether to use synchronized batch normalization or not, ...:
 
 ```yaml
 trainer:
@@ -320,7 +320,7 @@ trainer:
   sync_batchnorm: true
 ```
 
-Also you should define the callbacks fired by the trainer such as the checkpointing for the model:
+Also, you should define the callbacks fired by the trainer such as the checkpointing for the model:
 ```yaml
 callbacks:
   model_checkpoint:
@@ -335,7 +335,7 @@ callbacks:
 
 ### Job configuration
 
-Hydra allows you to configurate its behaviour to define a run directory to store your result, also used by Eztorch to change your `pwd`. You can also specify python packages to retrieve configuration to inherit from of to include in your current config:
+Hydra allows you to configure its behavior to define a run directory to store your result, also used by Eztorch to change your `pwd`. You can also specify Python packages to retrieve configuration to inherit from or to include in your current config:
 
 ```yaml
 hydra:
@@ -368,7 +368,7 @@ seed:
 
 ## Launch the pretraining
 
-To launch the pretraining of SCE and use our current configuration, you have to call the right python script with the location of the configuration.
+To launch the pretraining of SCE and use our current configuration, you have to call the right Python script with the location of the configuration.
 
 Eztorch defines a pretrain `script` that provides you the script to launch pretraining **depending** on your hydra configuration.
 
@@ -393,8 +393,8 @@ srun --kill-on-bad-exit=1 python pretrain.py\
     trainer.gpus=-1
 ```
 
-Pytorch-lightning automatically detects we are using SLURM and through the srun command make the multi-gpu distributed training work.
+Pytorch-lightning automatically detects we are using SLURM and through the srun command make the multi-GPU distributed training work.
 
-As you can see, we provided the **relative path** to the configuration as well as its name to configurate hydra with argparse like arguments.
+As you can see, we provided the **relative path** to the configuration as well as its name to configure hydra with argparse-like arguments.
 
-Configuration for our experiment are accessible the same way as in our Python code.
+Configuration for our experiment is accessible the same way as in our Python code.

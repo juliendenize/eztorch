@@ -2,17 +2,17 @@
 
 ## Introduction
 
-This folder aims to provide a documentation to help you use Eztorch. It contains several examples of scripts as well as various advices to use the library.
+This folder aims to provide documentation to help you use Eztorch. It contains several examples of scripts as well as various advice to use the library.
 
 ## Documentation
 
-In [`examples/`](./examples/examples), you will find concrete examples on how to use Eztorch.
+In [`examples/`](./examples/examples), you will find concrete examples of how to use Eztorch.
 
 In [`structure.md`](./structure.md), we explain how Eztorch is structured so you can find easily the functions or classes you are looking for and where to contribute.
 
 ## Comment your code
 
-Please, if you contribute to Eztorch, be sure to comment your code to ensure that others could read it.
+Please, if you contribute to Eztorch, be sure to comment your code to ensure that others can read it.
 
 ### Docstring
 

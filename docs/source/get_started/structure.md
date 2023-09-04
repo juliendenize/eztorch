@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Eztorch as a library has a specific organization for how and where the files are created. Names of folder and files should be informative of their content.
+Eztorch as a library has a specific organization for how and where the files are created. Names of folders and files should be informative of their content.
 
 ## General structure
 
@@ -18,7 +18,7 @@ eztorch
 
 ### Doc
 
-In `docs/`, you will find source documentation files about Eztorch such as in this file. We aim to make Eztorch accessible by anyone.
+In `docs/`, you will find source documentation files about Eztorch such as in this file. We aim to make Eztorch accessible to anyone.
 
 ### Eztorch
 
@@ -26,13 +26,13 @@ The folder `eztorch/` contains the actual library that we will detail below.
 
 ### Run
 
-The folder `run/` contains various scripts to make training or evaluation. These scripts thanks an Hydra configuration should perform a task agnostically to specific classes or architectures and be able to generalize to any relevant Hydra configuration.
+The folder `run/` contains various scripts to make training or evaluation. These scripts thanks a Hydra configuration should perform a task agnostically to specific classes or architectures and be able to generalize to any relevant Hydra configuration.
 
 ### Tests
 
-The folder `tests/` contains various tests to ensure that components in Eztorch properly works.
+The folder `tests/` contains various tests to ensure that components in Eztorch properly work.
 
-As a general rule of thumb, the best would be to test individual component every time they are added, which is not the case for now.
+As a general rule of thumb, the best would be to test individual components every time they are added, which is not the case for now.
 
 
 ## Library structure
@@ -67,17 +67,15 @@ The `datamodules/` folder contains [datamodules](https://pytorch-lightning.readt
 
 The `datasets/` folder contains datasets tools for various image and video datasets.
 
-Among these tools there are:
-- Datasets for videos, example: `datasets/hmdb51.py`.
-- Datasets for images, example: `datasets/sun397.py`.
-- Wrapper around datasets, example `datasets/dict_dataset.py`.
+Among these tools, there are:
+- Datasets for videos, for example `datasets/hmdb51.py`.
+- Wrapper around datasets, for example `datasets/dict_dataset.py`.
 - Other tools such as clip samplers for video clip generation in `datasets/clip_samplers/`.
 
 ### Evaluation
 
 The `evaluation/` folder contains the tools for evaluation networks.
-
-For now there are:
+For now, there are:
 - Linear classifier evaluation for SSL protocol.
 - Testing time augmentations functions to average predictions of several augmentations.
 
@@ -112,7 +110,7 @@ Heads are the part of your models that should specialize to a task:
 
 The `modules/` folder contains layers or modules for your models that accomplish a specific action.
 
-It could be gathering tensors, splitting batch normalization layers in parts, ...
+It could be gathering tensors, or splitting batch normalization layers in parts, ...
 
 #### Siamese
 
@@ -126,7 +124,7 @@ Currently implemented methods are:
 
 #### Trunks
 
-The `trunks/` folder contains the trunks, or backbone, or encoders, used in Eztorch for Image and Video modalities.
+The `trunks/` folder contains the trunks, backbone, or encoders, used in Eztorch for Image and Video modalities.
 
 Timm and Pytorchvideo models are also available.
 
@@ -140,13 +138,13 @@ The `schedulers/` folder contains the custom schedulers (such as Cosine Annealin
 
 ### Transforms
 
-The `transforms/` folder contains all custom transforms defined by Eztorch for Image and Videos.
+The `transforms/` folder contains all custom transforms defined by Eztorch for images and videos.
 
 Transforms from Torchvision or Kornia are also available. The latter permits GPU transforms.
 
 ### Utils
 
-The `utils/` folder contains all utils function to help to ease Eztorch and allow various training tricks.
+The `utils/` folder contains all utils functions to help Eztorch functionalities and allow various training tricks.
 
 ### Visualization
 
