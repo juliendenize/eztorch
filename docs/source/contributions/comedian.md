@@ -17,8 +17,9 @@ Data preparation details are available [here](../get_started/prepare_data.md).
 
 ## Main results
 
-Results obtained from several architectures. We provide the associated checkpoints.
+Results obtained on test set from several architectures. We provide the associated checkpoints.
 
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/comedian-self-supervised-learning-and/action-spotting-on-soccernet-v2)](https://paperswithcode.com/sota/action-spotting-on-soccernet-v2?p=comedian-self-supervised-learning-and)
 <table>
 <thead>
   <tr>
@@ -37,6 +38,16 @@ Results obtained from several architectures. We provide the associated checkpoin
     <td align="center">ViSwin Tiny</td>
     <td align="center">71.6</td>
     <td align="center"><a href="https://drive.google.com/file/d/1zDVUKq8nRd5hVZIm49Ity-8GnLTa7DOh/view?usp=drive_link">Download</a></td>
+  </tr>
+  <tr>
+    <td align="center">ViVit Tiny ensemble</td>
+    <td align="center">72.0</td>
+    <td align="center"></td>
+  </tr>
+  <tr>
+    <td align="center">ViSwin Tiny ensemble</td>
+    <td align="center">73.1</td>
+    <td align="center"></td>
   </tr>
 </tbody>
 </table>
@@ -270,7 +281,7 @@ srun --kill-on-bad-exit=1 python test.py -cp $config_path -cn $config_name \
 
 The finetuning stores at each validation the raw predictions (before NMS) as well as the predicted ones that allow for trying different NMS parameters.
 
-Example to make new predictions on the validation split.
+Example to use new NMS parameters from raw predictions on the validation split.
 
 ```bash
 soccernet_labels_dir=...
