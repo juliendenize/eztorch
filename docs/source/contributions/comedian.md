@@ -339,7 +339,6 @@ predictions_path=... # Path of predictions
 srun --kill-on-bad-exit=1 python evaluation_action_spotting.py \
     --soccernet-path=$soccernet_labels_dir \
     --predictions-path=$predictions_path \
-    --process-predictions \
     --split="valid" \
     --task "action"
 ```
