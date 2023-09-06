@@ -2,11 +2,11 @@
 
 ## Introduction
 
-This repository contains the  official [Pytorch](https://pytorch.org/) implementation of [Similarity Contrastive Estimation for Self-Supervised Soft Contrastive Learning](https://openaccess.thecvf.com/content/WACV2023/papers/Denize_Similarity_Contrastive_Estimation_for_Self-Supervised_Soft_Contrastive_Learning_WACV_2023_paper.pdf) (SCE) that has been published in **IEEE/CVF Winter Conference on Applications of Computer Vision (WACV) 2023**.
+This repository contains the official [Pytorch](https://pytorch.org/) implementation of [Similarity Contrastive Estimation for Self-Supervised Soft Contrastive Learning](https://openaccess.thecvf.com/content/WACV2023/papers/Denize_Similarity_Contrastive_Estimation_for_Self-Supervised_Soft_Contrastive_Learning_WACV_2023_paper.pdf) (SCE) that has been published in the **IEEE/CVF Winter Conference on Applications of Computer Vision (WACV) 2023**.
 
 ## Data preparation
 
-Data preparation details is available [here](../get_started/prepare_data.md).
+Data preparation details are available [here](../get_started/prepare_data.md).
 
 ## Main results
 
@@ -58,9 +58,9 @@ You can find below the command lines to launch the configs to retrieve those res
 
 ## SCE Pretraining
 
-We launched our experiments on a computational cluster configured via SLURM using for two crops 8 A100-80G GPUs and for multi-crop 16 A100-80G GPUs.
+We launched our experiments on a computational cluster configured via SLURM using for the two crops configuration 8 A100-80G GPUs and for the multi-crop configuration 16 A100-80G GPUs.
 
-We provide below the commands using the [srun](https://slurm.schedmd.com/srun.html) command from SLURM that was inside a SLURM script. Pytorch-Lightning directly detects SLURM is used and configure accordingly the distributed training. We strongly suggest you to refer to the [Pytorch-Lightning's documentation](https://pytorch-lightning.readthedocs.io/en/stable/accelerators/gpu.html) to correctly set up a command line without srun if you do not have access to a slurm cluster.
+We provide below the commands using the [srun](https://slurm.schedmd.com/srun.html) command from SLURM that was inside a SLURM script. Pytorch-Lightning directly detects SLURM is used and configures accordingly the distributed training. We strongly suggest you refer to [Pytorch-Lightning's documentation](https://pytorch-lightning.readthedocs.io/en/stable/accelerators/gpu.html) to correctly set up a command line without srun if you do not have access to a slurm cluster.
 
 ### Pretraining for 100 epochs
 ```bash
@@ -165,7 +165,7 @@ srun --kill-on-bad-exit=1 python linear_classifier_evaluation.py \
 ```
 ## Transfer Learning
 
-For Transfer Learning evaluation we used code provided by several authors that we would like to thank for sharing their work. Below we redirect you to their github for every transfer we have done.
+For Transfer Learning evaluation we used code provided by several authors that we would like to thank for sharing their work. Below we redirect you to their Github for every transfer we have done.
 
 All evaluations are based on the multi-crop checkpoint.
 ### Linear classifier on other datasets

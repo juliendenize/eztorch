@@ -1,23 +1,23 @@
-# COMEDIAN for Action Spotting
+# COMEDIAN for Action Spotting (arXiv 2023)
 
 ## Introduction
 
-This repository contains the  official [Pytorch](https://pytorch.org/) implementation of [COMEDIAN: Self-Supervised Learning and Knowledge Distillation for Action Spotting using Transformers](https://juliendenize.github.io/eztorch/contributions/comedian.html).
+This repository contains the  official [Pytorch](https://pytorch.org/) implementation of [COMEDIAN: Self-Supervised Learning and Knowledge Distillation for Action Spotting using Transformers](https://arxiv.org/abs/2309.01270) preprinted on **arXiv**.
 
 COMEDIAN is composed of three steps:
-1. Pretraining via a self-supervised loss the spatial transformer.
-2. Pretraining via a knowledge distillation loss the spatial and temporal transformers.
+1. Pretraining via a self-supervised loss of the spatial transformer.
+2. Pretraining via a knowledge distillation loss of the spatial and temporal transformers.
 3. Fine-tuning to the action spotting task.
 
 In next sections, we provide the code for all these steps for ViViT Tiny. All experiments can be launched on 2 A100-80G GPUs.
 
 ## Data preparation
 
-Data preparation details is available [here](../get_started/prepare_data.md).
+Data preparation details are available [here](../get_started/prepare_data.md).
 
 ## Main results
 
-Results obtained several architectures. We provide the associated checkpoints.
+Results obtained from several architectures. We provide the associated checkpoints.
 
 <table>
 <thead>
@@ -268,7 +268,7 @@ srun --kill-on-bad-exit=1 python test.py -cp $config_path -cn $config_name \
 
 #### Process predictions
 
-The finetuning stores at each validation the raw predictions (before NMS) as well as the predicted ones that allows for trying different NMS parameters.
+The finetuning stores at each validation the raw predictions (before NMS) as well as the predicted ones that allow for trying different NMS parameters.
 
 Example to make new predictions on the validation split.
 
@@ -304,7 +304,7 @@ If you found an error, have trouble making this work or have any questions, plea
 
 
 ## Acknowledgment
-This publication was made possible by the use of the Factory-AI supercomputer, financially supported by the Ile-de-France Regional Council, and the HPC resources of IDRIS under the allocation 2023-AD011014382 made by GENCI.
+This publication was made possible by the use of the Factory-AI supercomputer, financially supported by the Ile-de-France Regional Council and the HPC resources of IDRIS under the allocation 2023-AD011014382 made by GENCI.
 
 
 ## Citation
@@ -316,6 +316,9 @@ If you found our work useful, please consider citing us:
     author    = {Denize, Julien and Liashuha, Mykola and Rabarisoa, Jaonary and Orcesi, Astrid and H\'erault, Romain and Canu, St\'ephane},
     title     = {COMEDIAN: Self-Supervised Learning and Knowledge Distillation for Action Spotting using
 Transformers},
+    journal   = {arXiv},
+    volume    = {abs/2309.01270},
     year      = {2023},
+    url       = {https://arxiv.org/abs/2309.01270},
 }
 ```

@@ -2,11 +2,11 @@
 
 ## Introduction
 
-This repository contains the  official [Pytorch](https://pytorch.org/) implementation of [Similarity Contrastive Estimation for Image and Video Soft Contrastive Self-Supervised Learning](https://arxiv.org/abs/2212.11187) (SCE) that has been accepted by the journal **Machine Vision and Applications**.
+This repository contains the official [Pytorch](https://pytorch.org/) implementation of [Similarity Contrastive Estimation for Image and Video Soft Contrastive Self-Supervised Learning](https://arxiv.org/abs/2212.11187) (SCE) that has been accepted by the journal **Machine Vision and Applications**.
 
 ## Data preparation
 
-Data preparation details is available [here](../get_started/prepare_data.md).
+Data preparation details are available [here](../get_started/prepare_data.md).
 
 ## SCE for images
 
@@ -16,7 +16,7 @@ Doc is available [here](./sce_wacv.md).
 
 We launched our experiments on computational clusters configured via SLURM using up to 16 A100-80G GPUs depending on the experiments.
 
-We provide below the commands using the [srun](https://slurm.schedmd.com/srun.html) command from SLURM that was inside a SLURM script. Pytorch-Lightning directly detects SLURM is used and configure accordingly the distributed training. We strongly suggest you to refer to the [Pytorch-Lightning's documentation](https://pytorch-lightning.readthedocs.io/en/stable/accelerators/gpu.html) to correctly set up a command line without srun if you do not have access to a slurm cluster.
+We provide below the commands using the [srun](https://slurm.schedmd.com/srun.html) command from SLURM that was inside a SLURM script. Pytorch-Lightning directly detects SLURM is used and configures accordingly the distributed training. We strongly suggest you refer to [Pytorch-Lightning's](https://pytorch-lightning.readthedocs.io/en/stable/accelerators/gpu.html)[ documentation](https://pytorch-lightning.readthedocs.io/en/stable/accelerators/gpu.html) to correctly set up a command line without srun if you do not have access to a slurm cluster.
 
 
 We launched our experiments on a computational cluster configured via SLURM.
@@ -205,9 +205,9 @@ srun --kill-on-bad-exit=1 python linear_classifier_evaluation.py \
 
 Validation can be quite long, in the code we evaluate only every 5 epochs. Two steps can speed things up:
 1. Speed training:
-     - remove validation and only save the last checkpoint
-     - perform a validation with only one crop instead of 30
-2. Perform testing afterwards.
+     - removes validation and only saves the last checkpoint
+     - performs a validation with only one crop instead of 30
+2. Perform testing afterward.
 
 To perform this, change the config for validation and launch a test after training (example for **Kinetics400 R3D50 16 frames**):
 
@@ -284,9 +284,9 @@ srun --kill-on-bad-exit=1 python supervised.py \
 
 Validation can be quite long, in the code we evaluate only every 5 epochs. Two steps can speed things up:
 1. Speed training:
-     - remove validation and only save the last checkpoint
-     - perform a validation with only one crop instead of 30
-2. Perform testing afterwards.
+     - removes validation and only saves the last checkpoint
+     - performs a validation with only one crop instead of 30
+2. Perform testing afterward.
 
 To perform this, change the config for validation and launch a test after training (example for **UCF101**):
 
@@ -421,7 +421,7 @@ If you found an error, have trouble making this work or have any questions, plea
 
 ## Acknowledgment
 
-This publication was made possible by the use of the Factory-AI supercomputer, financially supported by the Ile-de-France Regional Council, and the HPC resources of IDRIS under the allocation 2022-AD011013575 made by GENCI.
+This publication was made possible by the use of the Factory-AI supercomputer, financially supported by the Ile-de-France Regional Council and the HPC resources of IDRIS under the allocation 2022-AD011013575 made by GENCI.
 
 ## Citation
 
