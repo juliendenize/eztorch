@@ -246,7 +246,7 @@ srun --kill-on-bad-exit=1 python test.py.py \
 
 #### Fine-tuning
 
-We give here the configurations obtained on the ResNet3d50 with 16 frames, but configs for other networks are available.
+We give here the configurations for fine-tuning a ResNet3d50 with 16 frames, but configs for other networks are available.
 
 ##### HMDB51
 
@@ -329,7 +329,7 @@ srun --kill-on-bad-exit=1 python test.py \
 
 #### Retrieval
 
-We give here the configurations obtained on the ResNet3d50 with 16 frames, but configs for other networks are available.
+We give here the configurations for video retrieval using a ResNet3d50 with 16 frames, but configs for other networks are available.
 
 It has two steps:
 1. Features extraction
