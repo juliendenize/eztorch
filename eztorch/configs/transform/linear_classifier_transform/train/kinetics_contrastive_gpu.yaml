@@ -1,6 +1,6 @@
 _target_: torchaug.batch_transforms.BatchVideoWrapper
 same_on_frames: True
-video_format: BCTHW
+video_format: CTHW
 inplace: True
 transforms:
 - _target_: eztorch.transforms.Div255Input
@@ -12,10 +12,10 @@ transforms:
   p: 0.8
   saturation: 0.4
   inplace: True
-- _target_: torchaug.batch_transforms.RandomGrayscale
+- _target_: torchaug.batch_transforms.BatchRandomGrayScale
   p: 0.2
   inplace: True
-- _target_: torchaug.batch_transforms.RandomHorizontalFlip
+- _target_: torchaug.batch_transforms.BatchRandomHorizontalFlip
   p: 0.5
   inplace: True
 - _target_: torchaug.transforms.Normalize

@@ -141,6 +141,16 @@ srun --kill-on-bad-exit=1 python pretrain.py \
 
 ### Downstream tasks
 
+For downstream tasks, we consider by default you use checkpoints you pretrained yourselves.
+
+If this is not the case and you downloaded the checkpoints we provided, do not forget to change the `model.trunk_pattern` config that searches the trunk pattern in the state dict:
+```bash
+
+srun --kill-on-bad-exit=1 python downstream_script.py
+     ...
+     model.trunk_pattern="" \
+     ...
+```
 #### Linear evaluation
 
 ##### R3D18 Kinetics200
@@ -216,7 +226,7 @@ eval_config_path="../eztorch/configs/run/evaluation/linear_classifier/sce/resnet
 eval_config_name="resnet3d50_kinetics400"
 pretrain_checkpoint=...
 
-srun --kill-on-bad-exit=1 python linear_classifier_evaluation.py \
+srun --kill-on-bad-exit=1 python test.py.py \
      -cp $eval_config_path -cn $eval_config_name \
      dir.data=$dataset_dir \
      dir.root=$output_dir \
@@ -225,7 +235,8 @@ srun --kill-on-bad-exit=1 python linear_classifier_evaluation.py \
      model.optimizer.batch_size=512 \
      datamodule.train=null \
      datamodule.val=null \
-     datamodule.test.loader.num_workers=5 \
+     datamodule.test.loader.num_workers=3 \
+     datamodule.test.global_batch_size=2 \
      datamodule.test.transform.transform.transforms.0.num_samples=16 \
      seed.seed=$seed \
      trainer=gpu \
@@ -256,7 +267,8 @@ srun --kill-on-bad-exit=1 python supervised.py \
      datamodule.val.loader.num_workers=4 \
      datamodule.decoder_args.frame_filter.num_samples=16 \
      seed.seed=$seed \
-     trainer.devices=-1
+     trainer.devices=-1 \
+     test=null \
 ```
 ##### UCF101
 
@@ -277,7 +289,8 @@ srun --kill-on-bad-exit=1 python supervised.py \
      datamodule.val.loader.num_workers=4 \
      datamodule.decoder_args.frame_filter.num_samples=16 \
      seed.seed=$seed \
-     trainer.devices=-1
+     trainer.devices=-1 \
+     test=null \
 ```
 
 ##### Testing
@@ -325,7 +338,7 @@ It has two steps:
 ##### HMDB51
 
 ```bash
-extract_config_path="../eztorch/configs/run/finetuning/resnet3d50"
+extract_config_path="../eztorch/configs/run/evaluation/feature_extractor/resnet3d50"
 extract_config_name="resnet3d50_hmdb51_frame"
 retrieval_config_path="../eztorch/configs/run/evaluation/retrieval_from_bank"
 retrieval_config_name="default"
@@ -341,10 +354,10 @@ srun --kill-on-bad-exit=1 python extract_features.py \
      dir.exp="features_extraction_split${split}" \
      model.pretrained_trunk_path=$pretrain_checkpoint \
      datamodule.decoder_args.frame_filter.num_samples=16 \
-     datamodule.train.loader.num_workers=4 \
-     datamodule.val.loader.num_workers=4 \
-     datamodule.train.global_batch_size=64 \
-     datamodule.val.global_batch_size=64 \
+     datamodule.train.loader.num_workers=3 \
+     datamodule.val.loader.num_workers=3 \
+     datamodule.train.global_batch_size=2 \
+     datamodule.val.global_batch_size=2 \
      seed.seed=$seed \
      trainer.num_nodes=$SLURM_NNODES \
      datamodule.split_id=$split \
@@ -354,7 +367,7 @@ srun --kill-on-bad-exit=1 python extract_features.py \
 query_features="${output_dir}/features_extraction_split${split}/val_features.pth"
 bank_features="${output_dir}/features_extraction_split${split}/train_features.pth"
 query_labels="${output_dir}/features_extraction_split${split}/val_labels.pth"
-query_labels="${output_dir}/features_extraction_split${split}/val_labels.pth"
+bank_labels="${output_dir}/features_extraction_split${split}/train_labels.pth"
 
 srun --kill-on-bad-exit=1 python retrieval_from_bank.py \
      -cp $retrieval_config_path -cn $retrieval_config_name \
@@ -363,13 +376,13 @@ srun --kill-on-bad-exit=1 python retrieval_from_bank.py \
      query.features_path=$query_features \
      query.labels_path=$query_labels \
      bank.features_path=$bank_features \
-     bank.labels_path=$query_labels
+     bank.labels_path=$bank_labels
 ```
 
 ##### UCF101
 
 ```bash
-extract_config_path="../eztorch/configs/run/finetuning/resnet3d50"
+extract_config_path="../eztorch/configs/run/evaluation/feature_extractor/resnet3d50"
 extract_config_name="resnet3d50_ucf101_frame"
 retrieval_config_path="../eztorch/configs/run/evaluation/retrieval_from_bank"
 retrieval_config_name="default"
@@ -385,10 +398,10 @@ srun --kill-on-bad-exit=1 python extract_features.py \
      dir.exp="features_extraction_split${split}" \
      model.pretrained_trunk_path=$pretrain_checkpoint \
      datamodule.decoder_args.frame_filter.num_samples=16 \
-     datamodule.train.loader.num_workers=4 \
-     datamodule.val.loader.num_workers=4 \
-     datamodule.train.global_batch_size=64 \
-     datamodule.val.global_batch_size=64 \
+     datamodule.train.loader.num_workers=3 \
+     datamodule.val.loader.num_workers=3 \
+     datamodule.train.global_batch_size=2 \
+     datamodule.val.global_batch_size=2 \
      seed.seed=$seed \
      trainer.num_nodes=$SLURM_NNODES \
      datamodule.split_id=$split \
@@ -398,7 +411,7 @@ srun --kill-on-bad-exit=1 python extract_features.py \
 query_features="${output_dir}/features_extraction_split${split}/val_features.pth"
 bank_features="${output_dir}/features_extraction_split${split}/train_features.pth"
 query_labels="${output_dir}/features_extraction_split${split}/val_labels.pth"
-query_labels="${output_dir}/features_extraction_split${split}/val_labels.pth"
+bank_labels="${output_dir}/features_extraction_split${split}/train_labels.pth"
 srun --kill-on-bad-exit=1 python retrieval_from_bank.py \
      -cp $retrieval_config_path -cn $retrieval_config_name \
      dir.root=$output_dir \
@@ -406,12 +419,12 @@ srun --kill-on-bad-exit=1 python retrieval_from_bank.py \
      query.features_path=$query_features \
      query.labels_path=$query_labels \
      bank.features_path=$bank_features \
-     bank.labels_path=$query_labels
+     bank.labels_path=$bank_labels
 ```
 
 #### Action Localization on AVA and Recognition on SSV2
 
-Generalization to Action Localization on AVA and Action Recognition on SSV2 was performed thanks to the [SlowFast](https://github.com/facebookresearch/SlowFast) repository.
+Generalization to Action Localization on AVA and Action Recognition on SSV2 was performed thanks to the [SlowFast](https://github.com/facebookresearch/SlowFast) repository. This repository supports the use of pytorchvideo models which we used as backbones.
 
 
 ## Issue

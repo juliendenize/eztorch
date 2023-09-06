@@ -153,12 +153,23 @@ def get_sub_state_dict_from_pl_ckpt(
     Args:
         checkpoint_path: Pytorch lightning checkpoint path.
         pattern: Pattern to filter the keys for the sub state dictionary.
+            If value is ``""`` keep all keys.
 
     Returns:
         Sub state dict from the checkpoint following the pattern.
     """
     model = torch.load(checkpoint_path)
-    state_dict = {k: v for k, v in model["state_dict"].items() if re.match(pattern, k)}
+    if "state_dict" in model:
+        state_dict = {
+            k: v
+            for k, v in model["state_dict"].items()
+            if pattern == "" or re.match(pattern, k)
+        }
+    else:
+        state_dict = {
+            k: v for k, v in model.items() if pattern == "" or re.match(pattern, k)
+        }
+
     return state_dict
 
 
@@ -168,8 +179,11 @@ def remove_pattern_in_keys_from_dict(d: Dict[Any, Any], pattern: str) -> Dict[An
     Args:
         d: The dictionary.
         pattern: Pattern to remove from the keys.
+            If value is ``""`` keep all keys.
 
     Returns:
         Input dictionary with updated keys.
     """
+    if pattern == "":
+        return d
     return {re.sub(pattern, "", k): v for k, v in d.items()}

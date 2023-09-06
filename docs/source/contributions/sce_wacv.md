@@ -95,7 +95,7 @@ srun --kill-on-bad-exit=1 python pretrain.py \
     seed.seed=$seed \
     datamodule.train.loader.num_workers=8 \
     datamodule.val.loader.num_workers=8 \
-    trainer.gpus=8
+    trainer.devices=8
 ```
 
 ### Pretraining for 300 epochs
@@ -140,7 +140,7 @@ srun --kill-on-bad-exit=1 python pretrain.py \
     seed.seed=$seed \
     datamodule.train.loader.num_workers=8 \
     datamodule.val.loader.num_workers=8 \
-    trainer.gpus=8 \
+    trainer.devices=8 \
     trainer.num_nodes=2
 ```
 ## Linear classification
@@ -161,8 +161,20 @@ srun --kill-on-bad-exit=1 python linear_classifier_evaluation.py \
     seed.seed=$seed \
     datamodule.train.loader.num_workers=8 \
     datamodule.val.loader.num_workers=8 \
-    trainer.gpus=8
+    trainer.devices=8
 ```
+
+We consider by default you use checkpoints you pretrained yourselves.
+
+If this is not the case and you downloaded the checkpoints we provide, do not forget to change the `model.trunk_pattern` config that searches the trunk pattern in the state dict:
+```bash
+
+srun --kill-on-bad-exit=1 python linear_classifier_evaluation.py
+     ...
+     model.trunk_pattern="" \
+     ...
+```
+
 ## Transfer Learning
 
 For Transfer Learning evaluation we used code provided by several authors that we would like to thank for sharing their work. Below we redirect you to their Github for every transfer we have done.

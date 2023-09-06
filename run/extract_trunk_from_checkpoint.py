@@ -33,7 +33,9 @@ if __name__ == "__main__":
     out_checkpoint_path = args.output_path
     trunk_pattern = args.trunk_pattern
 
-    state_dict = torch.load(checkpoint_path, map_location="cpu")["state_dict"]
+    state_dict = torch.load(checkpoint_path, map_location="cpu")
+    if "state_dict" in state_dict:  # Pytorch lightning checkpoints
+        state_dict = state_dict["state_dict"]
 
     old_keys = list(state_dict.keys())
     for old_key in old_keys:
