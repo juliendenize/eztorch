@@ -4,11 +4,11 @@ from eztorch.datasets.soccernet import soccernet_dataset
 from eztorch.datasets.soccernet_utils.parse_utils import SoccerNetTask
 
 parser = argparse.ArgumentParser(description="Precompute soccernet labels.")
-parser.add_argument("--radius_label", type=float, default=0.5)
-parser.add_argument("--data_path", type=str, default="")
-parser.add_argument("--path_prefix", type=str, default="")
+parser.add_argument("--radius-label", type=float, default=0.5)
+parser.add_argument("--data-path", type=str, default="")
+parser.add_argument("--path-prefix", type=str, default="")
 parser.add_argument("--fps", type=int, default=2)
-parser.add_argument("--cache_dir", type=str, default="")
+parser.add_argument("--cache-dir", type=str, default="")
 parser.add_argument("--task", type=str, default="action")
 
 
@@ -20,7 +20,7 @@ def main():
         transform=None,
         video_path_prefix=args.path_prefix,
         decoder_args={"fps": args.fps},
-        cache_args=None,
+        features_args=None,
         label_args={
             "radius_label": args.radius_label,
             "cache_dir": args.cache_dir,

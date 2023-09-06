@@ -284,7 +284,7 @@ The finetuning stores at each validation the raw predictions (before NMS) as wel
 Example to use new NMS parameters from raw predictions on the validation split.
 
 ```bash
-soccernet_labels_dir=...
+soccernet_labels_dir=... # Ground truths
 test_dir=... # Path to the JSON
 
 nms_type=...
@@ -305,6 +305,41 @@ srun --kill-on-bad-exit=1 python evaluation_action_spotting.py \
     --nms-type=$nms_type \
     --fps=2 \
     --step-timestamp=0.5 \
+    --split="valid" \
+    --task "action"
+```
+
+#### Merge predictions
+
+To improve results, you might want to merge several raw predictions. We provide a helper to do that.
+
+```bash
+dataset_path=... # Path to the JSON
+saved_features_raw_path=... ... ... # Paths to the saved raw features
+output_folder=... # Path to the output folder for merged features
+kind_merge="average" # How to merge the features, default = "average"
+
+srun --kill-on-bad-exit=1 python merge_soccernet_predictions.py \
+    --predictions-path $saved_features_raw_path \
+    --dataset-path=$dataset_path \
+    --output-folder=$output_folder \
+    --fps=2 \
+    --kind-merge=$kind_merge \
+    --task "action"
+```
+
+#### Evaluate predictions
+
+You can evaluate the predictions from a folder or zip without processing.
+
+```bash
+soccernet_labels_dir=... # Ground truths
+predictions_path=... # Path of predictions
+
+srun --kill-on-bad-exit=1 python evaluation_action_spotting.py \
+    --soccernet-path=$soccernet_labels_dir \
+    --predictions-path=$predictions_path \
+    --process-predictions \
     --split="valid" \
     --task "action"
 ```

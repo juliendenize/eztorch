@@ -117,14 +117,15 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     args.task = SoccerNetTask(args.task)
-    if len(args.nms_window) == 1:
-        args.nms_window = args.nms_window[0]
 
     predictions_path = Path(args.predictions_path)
 
     rank_zero_info(args)
 
     if args.process_predictions:
+        if len(args.nms_window) == 1:
+            args.nms_window = args.nms_window[0]
+
         dataset = soccernet_dataset(
             data_path=args.dataset_path,
             transform=None,

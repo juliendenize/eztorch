@@ -7,7 +7,7 @@
 
 ## Introduction
 
-Eztorch is a library to make training, validation, and testing in Pytorch *easy* to perform image and video self-supervised representation learning and evaluate those representations on downstream tasks. 
+Eztorch is a library to make training, validation, and testing in Pytorch *easy* to perform image and video self-supervised representation learning and evaluate those representations on downstream tasks.
 
 It was first developed to factorize code during [Julien Denize](https://juliendenize.github.io/)'s PhD thesis which was on *Self-supervised representation learning and applications to image and video analysis*.
 It led to several academic contributions:
