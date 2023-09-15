@@ -233,7 +233,7 @@ model:
         p: 0.8
         saturation: 0.4
         inplace: true
-      - _target_: torchaug.batch_transforms.BatchRandomGrayScale
+      - _target_: torchaug.batch_transforms.BatchRandomGrayscale
         p: 0.2
         inplace: true
       - _target_: torchaug.batch_transforms.BatchRandomGaussianBlur
@@ -270,7 +270,7 @@ model:
         p: 0.8
         saturation: 0.4
         inplace: true
-      - _target_: torchaug.batch_transforms.BatchRandomGrayScale
+      - _target_: torchaug.batch_transforms.BatchRandomGrayscale
         p: 0.2
         inplace: true
       - _target_: torchaug.batch_transforms.BatchRandomGaussianBlur

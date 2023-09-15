@@ -12,7 +12,7 @@ transforms:
   p: 0.8
   saturation: 0.4
   inplace: True
-- _target_: torchaug.batch_transforms.BatchRandomGrayScale
+- _target_: torchaug.batch_transforms.BatchRandomGrayscale
   p: 0.2
   inplace: True
 - _target_: torchaug.batch_transforms.BatchRandomHorizontalFlip
