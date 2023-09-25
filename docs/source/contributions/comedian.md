@@ -358,7 +358,7 @@ If you found our work useful, please consider citing us:
 
 ```
 @article{denize2023comedian,
-    author    = {Denize, Julien and Liashuha, Mykola and Rabarisoa, Jaonary and Orcesi, Astrid and H\'erault, Romain and Canu, St\'ephane},
+    author    = {Denize, Julien and Liashuha, Mykola and Rabarisoa, Jaonary and Orcesi, Astrid and H\'erault, Romain},
     title     = {COMEDIAN: Self-Supervised Learning and Knowledge Distillation for Action Spotting using
 Transformers},
     journal   = {arXiv},
