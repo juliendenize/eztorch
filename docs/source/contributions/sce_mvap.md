@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repository contains the official [Pytorch](https://pytorch.org/) implementation of [Similarity Contrastive Estimation for Image and Video Soft Contrastive Self-Supervised Learning](https://arxiv.org/abs/2212.11187) (SCE) that has been accepted by the journal **Machine Vision and Applications**.
+This repository contains the official [Pytorch](https://pytorch.org/) implementation of [Similarity Contrastive Estimation for Image and Video Soft Contrastive Self-Supervised Learning](https://link.springer.com/article/10.1007/s00138-023-01444-9) (SCE) that has been published in the journal **Machine Vision and Applications (2023)**.
 
 ## Data preparation
 
@@ -441,12 +441,13 @@ This publication was made possible by the use of the Factory-AI supercomputer, f
 If you found our work useful, please consider citing us:
 
 ```
-@article{denize2022sce_image_video,
-    author    = {Denize, Julien and Rabarisoa, Jaonary and Orcesi, Astrid and H\'erault, Romain},
-    title     = {Similarity Contrastive Estimation for Image and Video Soft Contrastive Self-Supervised Learning},
-    journal   = {arXiv},
-    volume    = {abs/2212.11187},
-    year      = {2022},
-    url       = {https://arxiv.org/abs/2212.11187},
+﻿@article{denize2023b,
+  author={Denize, Julien and Rabarisoa, Jaonary and Orcesi, Astrid and H{\'e}rault, Romain},
+  title={Similarity contrastive estimation for image and video soft contrastive self-supervised learning},
+  journal={Machine Vision and Applications},
+  year={2023},
+  volume={34},
+  number={6},
+  doi={10.1007/s00138-023-01444-9},
 }
 ```
