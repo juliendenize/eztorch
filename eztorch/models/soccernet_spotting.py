@@ -150,7 +150,10 @@ class SoccerNetSpottingModel(EztorchBaseModule):
             self.evaluation_args["split"] = "valid"
 
         if pretrained_path is not None:
-            state_dict = torch.load(pretrained_path, map_location="cpu")["state_dict"]
+            state_dict = torch.load(pretrained_path, map_location="cpu")
+
+            if "state_dict" in state_dict:
+                state_dict = ["state_dict"]
 
             missing_keys, unexpected_keys = self.load_state_dict(
                 state_dict, strict=False

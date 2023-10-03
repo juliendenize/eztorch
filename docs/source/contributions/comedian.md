@@ -258,6 +258,7 @@ srun --kill-on-bad-exit=1 python test.py -cp $config_path -cn $config_name \
     seed.seed=$seed \
     datamodule.train=null \
     datamodule.val=null \
+    datamodule.test.dataset.task=action \
     datamodule.test.dataset.datadir=$test_dir \
     datamodule.test.dataset.video_path_prefix=$frame_dir \
     datamodule.test.dataset.label_args.cache_dir=$labels_cache_dir_test \
@@ -268,13 +269,16 @@ srun --kill-on-bad-exit=1 python test.py -cp $config_path -cn $config_name \
     model.evaluation_args.SoccerNet_path=$soccernet_labels_dir \
     model.evaluation_args.split="test" \
     model.trunk.transformer.temporal_depth=6 \
-    ++test.ckpt_path=$checkpoint_path \
     model.save_test_preds_path="test_preds/" \
     model.prediction_args.remove_inference_prediction_seconds=12 \
     model.prediction_args.merge_predictions_type="max" \
     model.NMS_args.nms_type=soft \
     model.NMS_args.window=20 \
-    model.NMS_args.threshold=0.001
+    model.NMS_args.threshold=0.001 \
+    model.train_transform=null \
+    model.val_transform=null \
+    model.pretrained_path=$checkpoint_path \
+    ++test.ckpt_path=null
 ```
 
 #### Process predictions
