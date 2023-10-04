@@ -464,6 +464,7 @@ class SoccerNetSpottingModel(EztorchBaseModule):
             torch.round(halves_duration / self.eval_step_timestamp) - 1
         ).to(dtype=torch.long)
 
+        class_preds = self.shared_step(x, inversed_temporal_masked_indices=None)
         class_preds = class_preds.sigmoid()
 
         kept_tensors = aggregate_and_filter_clips(
