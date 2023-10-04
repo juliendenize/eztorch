@@ -25,7 +25,9 @@ Results obtained on test set from several architectures. We provide the associat
   <tr>
     <th style="text-align:center">Model</th>
     <th style="text-align:center">t-AmAP</th>
-    <th style="text-align:center">ckpt</th>
+    <th style="text-align:center">ckpt seed 42</th>
+    <th style="text-align:center">ckpt seed 203</th>
+    <th style="text-align:center">ckpt seed 666</th>
   </tr>
 </thead>
 <tbody>
@@ -33,20 +35,28 @@ Results obtained on test set from several architectures. We provide the associat
     <td align="center">ViViT Tiny</td>
     <td align="center">70.7</td>
     <td align="center"><a href="https://drive.google.com/file/d/1iTTlVXXFLp9QzxlccfT2i44BMvuOyYgq/view?usp=drive_link">Download</a></td>
+    <td align="center"><a href="https://drive.google.com/file/d/1zfryhsRtJchJNfPRiA-u-r5CYc-j1_ub/view?usp=drive_link">Download</a></td>
+    <td align="center"><a href="https://drive.google.com/file/d/1qpNlU_-J42l0_53YN0xRCzfR6aN8BxWd/view?usp=drive_link">Download</a></td>
   </tr>
   <tr>
     <td align="center">ViSwin Tiny</td>
     <td align="center">71.6</td>
     <td align="center"><a href="https://drive.google.com/file/d/1zDVUKq8nRd5hVZIm49Ity-8GnLTa7DOh/view?usp=drive_link">Download</a></td>
+    <td align="center"><a href="https://drive.google.com/file/d/1QD52pB60d9u82urs6ZSVwRIpNTliv9pR/view?usp=drive_link">Download</a></td>
+    <td align="center"><a href="https://drive.google.com/file/d/11BGiR-yeJUJmY6FfobaRwa-3t_Ps4CdN/view?usp=drive_link">Download</a></td>
   </tr>
   <tr>
     <td align="center">ViVit Tiny ensemble</td>
     <td align="center">72.0</td>
     <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
   </tr>
   <tr>
     <td align="center">ViSwin Tiny ensemble</td>
     <td align="center">73.1</td>
+    <td align="center"></td>
+    <td align="center"></td>
     <td align="center"></td>
   </tr>
 </tbody>
