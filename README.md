@@ -15,7 +15,7 @@ It led to several academic contributions:
 
 - [Similarity Contrastive Estimation for Self-Supervised Soft Contrastive Learning (WACV 2023)](./docs/source/contributions/sce_wacv.md)
 - [Similarity Contrastive Estimation for Image and Video Soft Contrastive Self-Supervised Learning (MVAP 2023)](./docs/source/contributions/sce_mvap.md)
-- [COMEDIAN: Self-Supervised Learning and Knowledge Distillation for Action Spotting using Transformers (arXiv 2023)](./docs/source/contributions/comedian.md)
+- [COMEDIAN: Self-Supervised Learning and Knowledge Distillation for Action Spotting using Transformers (WACV Workshops 2024)](./docs/source/contributions/comedian.md)
 
 <!-- start readme+ -->
 

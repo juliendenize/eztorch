@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repository contains the  official [Pytorch](https://pytorch.org/) implementation of [COMEDIAN: Self-Supervised Learning and Knowledge Distillation for Action Spotting using Transformers](https://arxiv.org/abs/2309.01270) preprinted on **arXiv**.
+This repository contains the  official [Pytorch](https://pytorch.org/) implementation of [COMEDIAN: Self-Supervised Learning and Knowledge Distillation for Action Spotting using Transformers](https://openaccess.thecvf.com/content/WACV2024W/Pretrain/papers/Denize_COMEDIAN_Self-Supervised_Learning_and_Knowledge_Distillation_for_Action_Spotting_Using_WACVW_2024_paper.pdf) that has been published in the **IEEE/CVF Winter Conference on Applications of Computer Vision (WACV) Workshops 2024**.
 
 COMEDIAN is composed of three steps:
 1. Pretraining via a self-supervised loss of the spatial transformer.
@@ -366,13 +366,12 @@ This publication was made possible by the use of the Factory-AI supercomputer, f
 If you found our work useful, please consider citing us:
 
 ```
-@article{denize2023comedian,
+@InProceedings{Denize_2024_WACVW,
     author    = {Denize, Julien and Liashuha, Mykola and Rabarisoa, Jaonary and Orcesi, Astrid and H\'erault, Romain},
-    title     = {COMEDIAN: Self-Supervised Learning and Knowledge Distillation for Action Spotting using
-Transformers},
-    journal   = {arXiv},
-    volume    = {abs/2309.01270},
-    year      = {2023},
-    url       = {https://arxiv.org/abs/2309.01270},
+    title     = {COMEDIAN: Self-Supervised Learning and Knowledge Distillation for Action Spotting Using Transformers},
+    booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV) Workshops},
+    month     = {January},
+    year      = {2024},
+    pages     = {530-540}
 }
 ```

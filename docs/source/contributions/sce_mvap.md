@@ -441,7 +441,7 @@ This publication was made possible by the use of the Factory-AI supercomputer, f
 If you found our work useful, please consider citing us:
 
 ```
-﻿@article{denize2023b,
+﻿@article{Denize_2023_MVAP,
   author={Denize, Julien and Rabarisoa, Jaonary and Orcesi, Astrid and H{\'e}rault, Romain},
   title={Similarity contrastive estimation for image and video soft contrastive self-supervised learning},
   journal={Machine Vision and Applications},
