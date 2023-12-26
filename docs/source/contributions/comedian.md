@@ -1,4 +1,4 @@
-# COMEDIAN for Action Spotting (arXiv 2023)
+# COMEDIAN for Action Spotting (WACV Workshops 2024)
 
 ## Introduction
 
