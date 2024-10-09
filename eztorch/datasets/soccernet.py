@@ -405,7 +405,6 @@ class SoccerNet(Dataset):
             precompute_labels = True
 
             cache_dir = self._label_args.pop("cache_dir", None)
-            cache_dir = None if cache_dir == "" else cache_dir
             if cache_dir is not None:
                 cache_dir = Path(cache_dir)
                 labels_file = cache_dir / "labels.pt"
@@ -489,7 +488,7 @@ class SoccerNet(Dataset):
                     )
 
                     if precompute_labels:
-                        (labels,) = _get_labels(
+                        labels = _get_labels(
                             annotations=half_metadata["annotations"],
                             start_position=0,
                             end_position=clip_end,
