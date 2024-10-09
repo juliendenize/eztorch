@@ -121,7 +121,7 @@ class SoccerNetPaths:
         """Serialize annotations for the dataset."""
         self._video_paths = np.array(
             [match_content["UrlLocal"] for match_content in self._annotations]
-        ).astype(np.string_)
+        ).astype(np.bytes_)
         self._halves_per_video = torch.tensor(
             [len(match_content["halves"]) for match_content in self._annotations],
             dtype=torch.uint8,
@@ -132,7 +132,7 @@ class SoccerNetPaths:
                 for match_content in self._annotations
                 for _, half_content in match_content["halves"].items()
             ]
-        ).astype(np.string_)
+        ).astype(np.bytes_)
 
         self._half_ids = torch.tensor(
             [

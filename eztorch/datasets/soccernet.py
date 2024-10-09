@@ -405,6 +405,7 @@ class SoccerNet(Dataset):
             precompute_labels = True
 
             cache_dir = self._label_args.pop("cache_dir", None)
+            cache_dir = None if cache_dir == "" else cache_dir
             if cache_dir is not None:
                 cache_dir = Path(cache_dir)
                 labels_file = cache_dir / "labels.pt"
@@ -577,7 +578,7 @@ def _get_labels(
         for label in range(num_labels):
             if label in timestamp_label_annotations:
                 labels[label, idx_timestamp] = 1
-        return labels.permute(1, 0)
+    return labels.permute(1, 0)
 
 
 class ImageSoccerNet(SoccerNet):
