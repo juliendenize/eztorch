@@ -1,0 +1,682 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Siamese" href="eztorch.models.siamese.html" /><link rel="prev" title="Trunks" href="eztorch.models.trunks.html" />
+
+    <!-- Generated with Sphinx 8.1.0 and Furo 2024.08.06 -->
+        <title>Heads - Eztorch</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Eztorch</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">Eztorch</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Get started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/structure.html">Library structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/prepare_data.html">Data preparation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../get_started/examples/examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../get_started/examples/pretrain/pretrain_r3d18_SCE_kinetics200.html">SCE R3D-18 on Kinetics200</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/how_to_document.html">How to document</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributions/sce_wacv.html">SCE (WACV 2023)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributions/sce_mvap.html">SCE Image &amp; Video (MVAP 2023)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributions/comedian.html">COMEDIAN for Action Spotting (WACV Workshops 2024)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="eztorch.models.html">Overview</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Overview</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="eztorch.models.trunks.html">Trunks</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Heads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eztorch.models.siamese.html">Siamese</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eztorch.models.supervised.html">Supervised</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eztorch.models.finetuning.html">Finetuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eztorch.models.dummy.html">Dummy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../evaluation/eztorch.evaluation.html">Evaluation pipeline</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Losses</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../losses/eztorch.losses.html">Losses</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/eztorch.modules.html">Eztorch Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datamodules/eztorch.datamodules.html">Datamodules</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../datasets/eztorch.datasets.html">Datasets</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Datasets</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../datasets/eztorch.datasets.clip_samplers.html">Clip Samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../datasets/eztorch.datasets.decoders.html">Video Decoders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../datasets/eztorch.datasets.collate_fn.html">Collate functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../transforms/eztorch.transforms.html">Transforms</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Transforms</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../transforms/eztorch.transforms.video.html">Video transforms</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Trainer</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../callbacks/eztorch.callbacks.html">Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimizers/eztorch.optimizers.html">Optimizers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../schedulers/eztorch.schedulers.html">Schedulers</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/juliendenize/eztorch/blob/main/docs/source/models/eztorch.models.heads.rst?plain=true" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/juliendenize/eztorch/edit/main/docs/source/models/eztorch.models.heads.rst" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="heads">
+<h1>Heads<a class="headerlink" href="#heads" title="Link to this heading">¶</a></h1>
+<section id="linear">
+<h2>Linear<a class="headerlink" href="#linear" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="eztorch.models.heads.LinearHead">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eztorch.models.heads.</span></span><span class="sig-name descname"><span class="pre">LinearHead</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">affine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2048</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm_layer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_normal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/eztorch/models/heads/linear.html#LinearHead"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#eztorch.models.heads.LinearHead" title="Link to this definition">¶</a></dt>
+<dd><p>Build a Linear head with optional dropout and normalization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>affine</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – Use affine in normalization layer.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>bias</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – Use bias in linear layer. If <code class="docutils literal notranslate"><span class="pre">norm_layer</span></code>, set to <code class="docutils literal notranslate"><span class="pre">False</span></code>.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>dropout</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>, <em>optional</em>) – Dropout probability, if <span class="math notranslate nohighlight">\(0\)</span>, no dropout layer.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">0.0</span></code></p></li>
+<li><p><strong>dropout_inplace</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – Use inplace operation in dropout.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>input_dim</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>, <em>optional</em>) – Input dimension for the linear head.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">2048</span></code></p></li>
+<li><p><strong>norm_layer</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</span>, <em>optional</em>) – Normalization layer after the linear layer, if <code class="docutils literal notranslate"><span class="pre">str</span></code> lookup for the module in <code class="docutils literal notranslate"><span class="pre">_BN_LAYERS</span></code> dictionary.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>output_dim</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>, <em>optional</em>) – Output dimension for the linear head.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">1000</span></code></p></li>
+<li><p><strong>init_normal</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, make normal initialization for linear layer.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>init_mean</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>, <em>optional</em>) – Mean for the initialization.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">0.0</span></code></p></li>
+<li><p><strong>init_std</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>, <em>optional</em>) – STD for the initialization.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">0.01</span></code></p></li>
+<li><p><strong>zero_bias</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, put zeros to bias for the initialization.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – If <code class="docutils literal notranslate"><span class="pre">norm_layer</span></code> is not supported.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="linear-3d">
+<h2>Linear 3D<a class="headerlink" href="#linear-3d" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="eztorch.models.heads.Linear3DHead">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eztorch.models.heads.</span></span><span class="sig-name descname"><span class="pre">Linear3DHead</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/eztorch/models/heads/linear3d.html#Linear3DHead"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#eztorch.models.heads.Linear3DHead" title="Link to this definition">¶</a></dt>
+<dd><p>Linear 3D head. This layer performs an optional pooling operation followed by an
+optional dropout, a fully-connected projection, an optional activation layer and a
+global spatiotemporal averaging.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   Pool3d
+      ↓
+Normalization
+      ↓
+   Dropout
+      ↓
+  Projection
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> – Input channel size of the resnet head.</p></li>
+<li><p><strong>pool</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>, <em>optional</em>) – Pooling module.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>dropout</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>, <em>optional</em>) – Dropout module.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>bn</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>, <em>optional</em>) – Batch normalization module.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>proj</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>, <em>optional</em>) – Project module.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>norm</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, normalize features along first dimension.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>init_std</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>, <em>optional</em>) – Init std for weights from pytorchvideo.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">0.01</span></code></p></li>
+<li><p><strong>view</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, apply reshape view to <span class="math notranslate nohighlight">\((-1, num features)\)</span>.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="eztorch.models.heads.create_linear3d_head">
+<span class="sig-prename descclassname"><span class="pre">eztorch.models.heads.</span></span><span class="sig-name descname"><span class="pre">create_linear3d_head</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_classes=400</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bn=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool=&lt;class</span> <span class="pre">'torch.nn.modules.pooling.AvgPool3d'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool_kernel_size=(1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">7)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool_stride=(1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool_padding=(0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_size=(1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate=0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view=True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/eztorch/models/heads/linear3d.html#create_linear3d_head"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#eztorch.models.heads.create_linear3d_head" title="Link to this definition">¶</a></dt>
+<dd><p>Creates ResNet basic head. This layer performs an optional pooling operation
+followed by an optional dropout, a fully-connected projection, an activation layer
+and a global spatiotemporal averaging.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   Pool3d
+      ↓
+Normalization
+      ↓
+   Dropout
+      ↓
+  Projection
+</pre></div>
+</div>
+<p>Pool3d examples include: AvgPool3d, MaxPool3d, AdaptiveAvgPool3d, and None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Input channel size of the resnet head.</p></li>
+<li><p><strong>num_classes</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>, <em>optional</em>) – Output channel size of the resnet head.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">400</span></code></p></li>
+<li><p><strong>bn</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]</span>, <em>optional</em>) – A callable that constructs a batch norm layer.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>norm</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, normalize features along first dimension.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>pool</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]</span>, <em>optional</em>) – A callable that constructs resnet head pooling layer,
+examples include: <code class="docutils literal notranslate"><span class="pre">nn.AvgPool3d</span></code>, <code class="docutils literal notranslate"><span class="pre">nn.MaxPool3d</span></code>, <code class="docutils literal notranslate"><span class="pre">nn.AdaptiveAvgPool3d</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">None</span></code> (not applying pooling).
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.pooling.AvgPool3d'&gt;</span></code></p></li>
+<li><p><strong>pool_kernel_size</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>, <em>optional</em>) – Pooling kernel size(s) when not using adaptive
+pooling.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">7,</span> <span class="pre">7)</span></code></p></li>
+<li><p><strong>pool_stride</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>, <em>optional</em>) – Pooling stride size(s) when not using adaptive pooling.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">1,</span> <span class="pre">1)</span></code></p></li>
+<li><p><strong>pool_padding</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>, <em>optional</em>) – Pooling padding size(s) when not using adaptive
+pooling.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></code></p></li>
+<li><p><strong>output_size</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>, <em>optional</em>) – Spatial temporal output size when using adaptive
+pooling.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">1,</span> <span class="pre">1)</span></code></p></li>
+<li><p><strong>dropout_rate</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>, <em>optional</em>) – Dropout rate.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">0.5</span></code></p></li>
+<li><p><strong>view</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – Whether to apply reshape view to <span class="math notranslate nohighlight">\((-1, num\ features)\)</span>.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="resnet-3d-head">
+<h2>ResNet 3D head<a class="headerlink" href="#resnet-3d-head" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="eztorch.models.heads.VideoResNetHead">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eztorch.models.heads.</span></span><span class="sig-name descname"><span class="pre">VideoResNetHead</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/eztorch/models/heads/video_resnet.html#VideoResNetHead"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#eztorch.models.heads.VideoResNetHead" title="Link to this definition">¶</a></dt>
+<dd><p>ResNet basic head. This layer performs an optional pooling operation followed by an
+optional dropout, a fully-connected projection, an optional activation layer and a
+global spatiotemporal averaging.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> Pool3d
+    ↓
+ Dropout
+    ↓
+Projection
+    ↓
+Activation
+    ↓
+Averaging
+</pre></div>
+</div>
+<p>The builder can be found in <a class="reference internal" href="#eztorch.models.heads.create_video_resnet_head" title="eztorch.models.heads.create_video_resnet_head"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_video_resnet_head()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pool</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>, <em>optional</em>) – Pooling module.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>dropout</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>, <em>optional</em>) – dropout module.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>proj</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>, <em>optional</em>) – project module.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>activation</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>, <em>optional</em>) – activation module.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>output_pool</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span>, <em>optional</em>) – pooling module for output.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>init_std</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>, <em>optional</em>) – init std for weights from pytorchvideo.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">0.01</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="eztorch.models.heads.create_video_resnet_head">
+<span class="sig-prename descclassname"><span class="pre">eztorch.models.heads.</span></span><span class="sig-name descname"><span class="pre">create_video_resnet_head</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_classes=400</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool=&lt;class</span> <span class="pre">'torch.nn.modules.pooling.AvgPool3d'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_size=(1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool_kernel_size=(1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">7)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool_stride=(1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool_padding=(0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate=0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_with_global_average=True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/eztorch/models/heads/video_resnet.html#create_video_resnet_head"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#eztorch.models.heads.create_video_resnet_head" title="Link to this definition">¶</a></dt>
+<dd><p>Creates ResNet basic head. This layer performs an optional pooling operation
+followed by an optional dropout, a fully-connected projection, an activation layer
+and a global spatiotemporal averaging.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> Pooling
+    ↓
+ Dropout
+    ↓
+Projection
+    ↓
+Activation
+    ↓
+Averaging
+</pre></div>
+</div>
+<p>Activation examples include: <code class="docutils literal notranslate"><span class="pre">ReLU</span></code>, <code class="docutils literal notranslate"><span class="pre">Softmax</span></code>, <code class="docutils literal notranslate"><span class="pre">Sigmoid</span></code>, and <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+Pool3d examples include: <code class="docutils literal notranslate"><span class="pre">AvgPool3d</span></code>, <code class="docutils literal notranslate"><span class="pre">MaxPool3d</span></code>, <code class="docutils literal notranslate"><span class="pre">AdaptiveAvgPool3d</span></code>, and <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Input channel size of the resnet head.</p></li>
+<li><p><strong>num_classes</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>, <em>optional</em>) – Output channel size of the resnet head.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">400</span></code></p></li>
+<li><p><strong>pool</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]</span>, <em>optional</em>) – A callable that constructs resnet head pooling layer,
+examples include: <code class="docutils literal notranslate"><span class="pre">AvgPool3d</span></code>, <code class="docutils literal notranslate"><span class="pre">MaxPool3d</span></code>, <code class="docutils literal notranslate"><span class="pre">AdaptiveAvgPool3d</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">None</span></code> (not applying pooling).
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.pooling.AvgPool3d'&gt;</span></code></p></li>
+<li><p><strong>pool_kernel_size</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>, <em>optional</em>) – Pooling kernel size(s) when not using adaptive
+pooling.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">7,</span> <span class="pre">7)</span></code></p></li>
+<li><p><strong>pool_stride</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>, <em>optional</em>) – Pooling stride size(s) when not using adaptive pooling.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">1,</span> <span class="pre">1)</span></code></p></li>
+<li><p><strong>pool_padding</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>, <em>optional</em>) – Pooling padding size(s) when not using adaptive
+pooling.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></code></p></li>
+<li><p><strong>output_size</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>, <em>optional</em>) – Spatial temporal output size when using adaptive
+pooling.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">1,</span> <span class="pre">1)</span></code></p></li>
+<li><p><strong>activation</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</span>, <em>optional</em>) – A callable that constructs resnet head activation
+layer, examples include: <code class="docutils literal notranslate"><span class="pre">ReLU</span></code>, <code class="docutils literal notranslate"><span class="pre">Softmax</span></code>, <code class="docutils literal notranslate"><span class="pre">Sigmoid</span></code>, and <code class="docutils literal notranslate"><span class="pre">None</span></code> (not
+applying activation).
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>dropout_rate</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>, <em>optional</em>) – Dropout rate.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">0.5</span></code></p></li>
+<li><p><strong>output_with_global_average</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, perform global averaging on temporal
+and spatial dimensions and reshape output to <span class="math notranslate nohighlight">\(batch\_size     imes out\_features\)</span>.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="mlp">
+<h2>MLP<a class="headerlink" href="#mlp" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="eztorch.models.heads.MLPHead">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eztorch.models.heads.</span></span><span class="sig-name descname"><span class="pre">MLPHead</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activation_inplace=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation_layer=&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">affine=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout=0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_inplace=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_dims=2048</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim=2048</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm_layer=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_layers=2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_bias=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_norm=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_affine=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dim=128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_init_normal=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_mean=0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_std=0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_bias=True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/eztorch/models/heads/mlp.html#MLPHead"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#eztorch.models.heads.MLPHead" title="Link to this definition">¶</a></dt>
+<dd><p>Build a MLP head with optional dropout and normalization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>activation_inplace</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – Inplace operation for activation layers.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>activation_layer</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code>]</span>, <em>optional</em>) – Activation layer, if str lookup for the module in <code class="docutils literal notranslate"><span class="pre">_ACTIVATION_LAYERS</span></code> dictionary.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></code></p></li>
+<li><p><strong>affine</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, use affine in normalization layer.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>bias</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, use bias in linear layer. If <code class="docutils literal notranslate"><span class="pre">norm_layer</span></code>, set to <code class="docutils literal notranslate"><span class="pre">False</span></code>.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>dropout</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]</span>, <em>optional</em>) – Dropout probability, if <span class="math notranslate nohighlight">\(0\)</span>, no dropout layer.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">0.0</span></code></p></li>
+<li><p><strong>dropout_inplace</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, use inplace operation in dropout.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>hidden_dims</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]</span>, <em>optional</em>) – dimension of the hidden layers <span class="math notranslate nohighlight">\((num\_layers - 1)\)</span>. If int, used for all hidden layers.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">2048</span></code></p></li>
+<li><p><strong>input_dim</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>, <em>optional</em>) – Input dimension for the MLP head.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">2048</span></code></p></li>
+<li><p><strong>norm_layer</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</span>, <em>optional</em>) – Normalization layer after the linear layer, if str lookup for the module in <code class="docutils literal notranslate"><span class="pre">_BN_LAYERS</span></code> dictionary.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>num_layers</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>, <em>optional</em>) – Number of layers <span class="math notranslate nohighlight">\((number\ of\ hidden\ layers + 1)\)</span>.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">2</span></code></p></li>
+<li><p><strong>last_bias</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, use bias in output layer. If <code class="docutils literal notranslate"><span class="pre">last_norm</span></code> and <code class="docutils literal notranslate"><span class="pre">norm_layer</span></code> set to <code class="docutils literal notranslate"><span class="pre">False</span></code>.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>last_norm</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, Apply normalization to the last layer if <code class="docutils literal notranslate"><span class="pre">norm_layer</span></code>.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>last_affine</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, use affine in output normalization layer.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>output_dim</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>, <em>optional</em>) – Output dimension for the MLP head.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">128</span></code></p></li>
+<li><p><strong>last_init_normal</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, make normal initialization for last layer.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>init_mean</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>, <em>optional</em>) – Mean for the last initialization.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">0.0</span></code></p></li>
+<li><p><strong>init_std</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>, <em>optional</em>) – STD for the last initialization.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">0.01</span></code></p></li>
+<li><p><strong>zero_bias</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, put zeros to bias for the last initialization.
+<div class="default-value-section"> <span class="default-value-label">Default:</span> <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – If <code class="docutils literal notranslate"><span class="pre">norm_layer</span></code> is not supported.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="eztorch.models.siamese.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Siamese</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="eztorch.models.trunks.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Trunks</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Julien Denize
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Heads</a><ul>
+<li><a class="reference internal" href="#linear">Linear</a><ul>
+<li><a class="reference internal" href="#eztorch.models.heads.LinearHead"><code class="docutils literal notranslate"><span class="pre">LinearHead</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#linear-3d">Linear 3D</a><ul>
+<li><a class="reference internal" href="#eztorch.models.heads.Linear3DHead"><code class="docutils literal notranslate"><span class="pre">Linear3DHead</span></code></a></li>
+<li><a class="reference internal" href="#eztorch.models.heads.create_linear3d_head"><code class="docutils literal notranslate"><span class="pre">create_linear3d_head()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#resnet-3d-head">ResNet 3D head</a><ul>
+<li><a class="reference internal" href="#eztorch.models.heads.VideoResNetHead"><code class="docutils literal notranslate"><span class="pre">VideoResNetHead</span></code></a></li>
+<li><a class="reference internal" href="#eztorch.models.heads.create_video_resnet_head"><code class="docutils literal notranslate"><span class="pre">create_video_resnet_head()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mlp">MLP</a><ul>
+<li><a class="reference internal" href="#eztorch.models.heads.MLPHead"><code class="docutils literal notranslate"><span class="pre">MLPHead</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>

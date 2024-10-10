@@ -1,0 +1,308 @@
+callbacks:
+  model_checkpoint:
+    _target_: eztorch.callbacks.ModelCheckpoint
+    dirpath: pretrain_checkpoints
+    filename: '{epoch}'
+    save_last: false
+    save_top_k: -1
+    mode: min
+    every_n_epochs: 100
+datamodule:
+  _target_: eztorch.datamodules.Kinetics200DataModule
+  _recursive_: false
+  datadir: ${..dir.data}
+  video_path_prefix: ${.datadir}
+  train:
+    dataset:
+      datadir: ${...datadir}/train.csv
+      video_path_prefix: ${...datadir}/train
+    transform:
+      _target_: eztorch.transforms.OnlyInputListTransform
+      _recursive_: true
+      transform:
+        _target_: eztorch.transforms.video.RandomResizedCrop
+        target_height: 224
+        target_width: 224
+        scale:
+        - 0.2
+        - 0.766
+        aspect_ratio:
+        - 0.75
+        - 1.3333
+        interpolation: bilinear
+    clip_sampler:
+      _target_: eztorch.datasets.clip_samplers.RandomMultiClipSampler
+      num_clips: 2
+      clip_duration: 2.56
+      speeds:
+      - 1
+      jitter_factor: 0
+    loader:
+      drop_last: true
+      num_workers: 5
+      pin_memory: true
+    global_batch_size: 512
+  val:
+    dataset:
+      datadir: ${...datadir}/val.csv
+      video_path_prefix: ${...datadir}/val
+    transform:
+      _target_: eztorch.transforms.OnlyInputTransform
+      _recursive_: true
+      transform:
+        _target_: torchvision.transforms.Compose
+        transforms:
+        - _target_: pytorchvideo.transforms.ShortSideScale
+          size: 256
+        - _target_: torchvision.transforms.CenterCrop
+          size: 256
+    clip_sampler:
+      _target_: eztorch.datasets.clip_samplers.RandomClipSampler
+      clip_duration: 2.56
+    loader:
+      drop_last: false
+      num_workers: 5
+      pin_memory: true
+    global_batch_size: 512
+  test:
+    dataset:
+      datadir: ${...datadir}/val.csv
+      video_path_prefix: ${...datadir}/val
+  decode_audio: false
+  decoder: frame
+  decoder_args:
+    fps: 30
+    frame_filter:
+      subsample_type: uniform
+      num_samples: 8
+    time_difference_prob: 0.2
+    num_threads_io: 4
+    num_threads_decode: 4
+    decode_float: true
+model:
+  train_transform:
+    _target_: eztorch.transforms.ApplyTransformsOnList
+    _recursive_: true
+    transforms:
+    - _target_: torchaug.batch_transforms.BatchVideoWrapper
+      same_on_frames: true
+      video_format: CTHW
+      inplace: true
+      transforms:
+      - _target_: eztorch.transforms.Div255Input
+        inplace: true
+      - _target_: torchaug.batch_transforms.BatchRandomColorJitter
+        brightness: 0.8
+        contrast: 0.8
+        hue: 0.2
+        p: 0.8
+        saturation: 0.4
+        inplace: true
+      - _target_: torchaug.batch_transforms.BatchRandomGrayscale
+        p: 0.2
+        inplace: true
+      - _target_: torchaug.batch_transforms.BatchRandomGaussianBlur
+        kernel_size: 23
+        sigma:
+        - 0.1
+        - 2.0
+        p: 1.0
+        inplace: true
+      - _target_: torchaug.batch_transforms.BatchRandomHorizontalFlip
+        p: 0.5
+        inplace: true
+      - _target_: torchaug.transforms.Normalize
+        mean:
+        - 0.45
+        - 0.45
+        - 0.45
+        std:
+        - 0.225
+        - 0.225
+        - 0.225
+        inplace: true
+    - _target_: torchaug.batch_transforms.BatchVideoWrapper
+      same_on_frames: true
+      video_format: CTHW
+      inplace: true
+      transforms:
+      - _target_: eztorch.transforms.Div255Input
+        inplace: true
+      - _target_: torchaug.batch_transforms.BatchRandomColorJitter
+        brightness: 0.8
+        contrast: 0.8
+        hue: 0.2
+        p: 0.8
+        saturation: 0.4
+        inplace: true
+      - _target_: torchaug.batch_transforms.BatchRandomGrayscale
+        p: 0.2
+        inplace: true
+      - _target_: torchaug.batch_transforms.BatchRandomGaussianBlur
+        kernel_size: 23
+        sigma:
+        - 0.1
+        - 2.0
+        p: 0.1
+        inplace: true
+      - _target_: torchaug.batch_transforms.BatchRandomSolarize
+        p: 0.2
+        threshold: 0.5
+        inplace: true
+      - _target_: torchaug.batch_transforms.BatchRandomHorizontalFlip
+        p: 0.5
+      - _target_: torchaug.transforms.Normalize
+        mean:
+        - 0.45
+        - 0.45
+        - 0.45
+        std:
+        - 0.225
+        - 0.225
+        - 0.225
+        inplace: true
+  val_transform:
+    _target_: torchaug.batch_transforms.BatchVideoWrapper
+    same_on_frames: true
+    video_format: CTHW
+    inplace: true
+    transforms:
+    - _target_: eztorch.transforms.Div255Input
+      inplace: true
+    - _target_: torchaug.transforms.Normalize
+      mean:
+      - 0.45
+      - 0.45
+      - 0.45
+      std:
+      - 0.225
+      - 0.225
+      - 0.225
+      inplace: true
+  _target_: eztorch.models.siamese.SCEModel
+  _recursive_: false
+  coeff: 0.125
+  final_scheduler_coeff: 0.0
+  initial_momentum: 0.99
+  mutual_pass: false
+  normalize_outputs: true
+  num_devices: -1
+  num_global_crops: 2
+  num_local_crops: 0
+  num_splits: 0
+  num_splits_per_combination: 2
+  optimizer:
+    _target_: eztorch.optimizers.optimizer_factory
+    _recursive_: false
+    exclude_wd_norm: false
+    exclude_wd_bias: false
+    name: lars
+    params:
+      momentum: 0.9
+      trust_coefficient: 0.001
+      weight_decay: 1.0e-06
+    batch_size: 512
+    initial_lr: 2.4
+    layer_decay_lr: null
+    scaler: linear
+    scheduler:
+      _target_: eztorch.schedulers.scheduler_factory
+      _recursive_: false
+      name: linear_warmup_cosine_annealing_lr
+      params:
+        max_epochs: 200
+        warmup_epochs: 35
+        warmup_start_lr: 0.0
+        eta_min: 0.0
+      interval: step
+  predictor:
+    _target_: eztorch.models.heads.MLPHead
+    activation_inplace: true
+    activation_layer: relu
+    affine: true
+    bias: false
+    dropout: 0.0
+    dropout_inplace: true
+    hidden_dims:
+    - 1024
+    input_dim: 256
+    norm_layer: bn_1D
+    num_layers: 2
+    last_bias: false
+    last_norm: false
+    last_affine: false
+    output_dim: 256
+  projector:
+    _target_: eztorch.models.heads.MLPHead
+    activation_inplace: true
+    activation_layer: relu
+    affine: true
+    bias: false
+    dropout: 0.0
+    dropout_inplace: true
+    hidden_dims:
+    - 1024
+    - 1024
+    input_dim: 512
+    norm_layer: bn_1D
+    num_layers: 3
+    last_bias: false
+    last_norm: true
+    last_affine: false
+    output_dim: 256
+  queue:
+    size: 32768
+    feature_dim: 256
+  scheduler_coeff: null
+  scheduler_momentum: cosine
+  simulate_n_devices: 8
+  shuffle_bn: false
+  start_warmup_coeff: 1.0
+  sym: true
+  temp: 0.1
+  temp_m: 0.05
+  trunk:
+    _target_: eztorch.models.trunks.create_video_head_model
+    _recursive_: false
+    model:
+      _target_: eztorch.models.trunks.create_resnet3d_basic
+      head: null
+      model_depth: 18
+    head:
+      _target_: eztorch.models.heads.create_video_resnet_head
+      activation: null
+      dropout_rate: 0.0
+      in_features: 512
+      num_classes: 0
+      output_size: [1, 1 ,1]
+      output_with_global_average: true
+      pool: null
+      pool_kernel_size: [8, 7, 7]
+  use_keys: false
+  warmup_epoch_coeff: 0
+  warmup_epoch_temp_m: 0
+  warmup_scheduler_coeff: linear
+  warmup_scheduler_temp_m: cosine
+seed:
+  _target_: lightning.fabric.utilities.seed.seed_everything
+  seed: 42
+  workers: true
+trainer:
+  _target_: lightning.pytorch.trainer.Trainer
+  accelerator: gpu
+  benchmark: true
+  devices: -1
+  max_epochs: 200
+  num_nodes: 1
+  precision: 16
+  strategy:
+    _target_: lightning.pytorch.strategies.DDPStrategy
+    find_unused_parameters: false
+    static_graph: false
+  sync_batchnorm: true
+ckpt_path: null
+dir:
+  data: ???
+  root: ???
+  exp: pretrain
+  run: ${.root}/${.exp}
