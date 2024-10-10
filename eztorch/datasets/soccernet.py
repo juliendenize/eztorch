@@ -488,7 +488,7 @@ class SoccerNet(Dataset):
                     )
 
                     if precompute_labels:
-                        (labels,) = _get_labels(
+                        labels = _get_labels(
                             annotations=half_metadata["annotations"],
                             start_position=0,
                             end_position=clip_end,
@@ -577,7 +577,7 @@ def _get_labels(
         for label in range(num_labels):
             if label in timestamp_label_annotations:
                 labels[label, idx_timestamp] = 1
-        return labels.permute(1, 0)
+    return labels.permute(1, 0)
 
 
 class ImageSoccerNet(SoccerNet):
