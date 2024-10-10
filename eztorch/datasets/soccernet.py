@@ -441,9 +441,9 @@ class SoccerNet(Dataset):
 
                     return
 
-                else:
-                    make_cache = True
-                    cache_dir.mkdir(parents=True, exist_ok=False)
+            else:
+                make_cache = True
+                cache_dir.mkdir(parents=True, exist_ok=False)
 
         if precompute_labels:
             labels_tot = [None for i in range(self.num_halves)]

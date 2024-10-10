@@ -8,7 +8,7 @@ parser.add_argument("--radius-label", type=float, default=0.5)
 parser.add_argument("--data-path", type=str, default="")
 parser.add_argument("--path-prefix", type=str, default="")
 parser.add_argument("--fps", type=int, default=2)
-parser.add_argument("--cache-dir", type=str, default="")
+parser.add_argument("--cache-dir", type=str, required=True)
 parser.add_argument("--task", type=str, default="action")
 
 
