@@ -8,5 +8,3 @@ coverage
 docs/build
 notebooks
 build/
-ckpts/
-scripts/
