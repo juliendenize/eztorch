@@ -5,6 +5,8 @@
 
 # Eztorch
 
+This library is archived as I don't plan to maintain it and the code should be considered as outdated as there are not particular optimizations in terms of distributed training making it innefficient at scale.
+
 ## Introduction
 
 Eztorch is a library to make training, validation, and testing in Pytorch *easy* to perform image and video self-supervised representation learning and evaluate those representations on downstream tasks.
